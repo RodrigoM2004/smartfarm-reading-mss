@@ -5,33 +5,56 @@ export const getAllUsers = async () => await User.find();
 
 export const getUserById = async (id) => await User.findById(id);
 
-export const createUser = (data) => {
-  const { password, role, ...userData } = data; // role é ignorado
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  const newUser = { id: uuidv4(), ...userData, password: hashedPassword, role: 'user' };
-  
-  users.push(newUser);
-  return { ...newUser, password: undefined };
+export const createUser = async (data) => {
+  try {
+    const existingUser = await User.findOne({ email: data.email });
+    if (existingUser) {
+      throw new Error('Email já registrado');
+    }
+
+    const hashedPassword = bcrypt.hashSync(data.password, 10);
+
+    const userData = {
+      ...data,
+      password: hashedPassword,
+      role: 'user', 
+    };
+
+    const newUser = new User(userData);
+
+    await newUser.save();
+
+    const userObj = newUser.toObject();
+    delete userObj.password;
+    return userObj;
+  } catch (err) {
+    throw new Error(err.message); 
+  }
 };
 
+export const updateUser = async (id, data) => {
+  try {
+    if (data.password) {
+      data.password = bcrypt.hashSync(data.password, 10);
+    }
 
-export const updateUser = (id, data) => {
-  const index = users.findIndex(u => u.id === id);
-  if (index === -1) return null;
+    if (data.role) {
+      throw new Error('Você não pode alterar o campo "role"');
+    }
 
-  const { role, ...updateData } = data; 
-
-  users[index] = { ...users[index], ...updateData };
-
-  return users[index];
+    const updatedUser = await User.findByIdAndUpdate(id, data, { new: true });
+    return updatedUser;
+  } catch (err) {
+    throw new Error(err.message); 
+  }
 };
-
 
 export const deleteUser = async (id) => await User.findByIdAndDelete(id);
 
 export const login = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) return null;
+
   const isMatch = bcrypt.compareSync(password, user.password);
   return isMatch ? user : null;
 };
