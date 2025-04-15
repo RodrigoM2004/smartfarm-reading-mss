@@ -1,6 +1,13 @@
-const users = [
-  { id: '1', name: 'João Silva', email: 'joao@email.com', password: '123456', role: 'admin', address: "Rua 2, 1000, 3920109", dateOfJoining: 21321983219 },
-  { id: '2', name: 'Maria Souza', email: 'maria@email.com', password: '123456', role: 'user', address: "Rua 1, 2, 093821", dateOfJoining: 20130921903 }
-];
+import mongoose from 'mongoose';
 
-export default users;
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ['user', 'admin'], default: 'user', required: true },
+  address: { type: String, required: true },
+  dateOfJoining: { type: Number, required: true }
+});
+
+
+export default mongoose.model('User', userSchema);

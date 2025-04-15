@@ -1,39 +1,37 @@
-import users from '../models/user_model.js';
-import { v4 as uuidv4 } from 'uuid';
+import User from '../models/user_model.js';
 import bcrypt from 'bcrypt';
 
-export const getAllUsers = () => users;
+export const getAllUsers = async () => await User.find();
 
-export const getUserById = (id) => users.find(u => u.id === id);
+export const getUserById = async (id) => await User.findById(id);
 
 export const createUser = (data) => {
-  const hashedPassword = bcrypt.hashSync(data.password, 10);
-  const newUser = { id: uuidv4(), ...data, password: hashedPassword };
+  const { password, role, ...userData } = data; // role é ignorado
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const newUser = { id: uuidv4(), ...userData, password: hashedPassword, role: 'user' };
+  
   users.push(newUser);
   return { ...newUser, password: undefined };
 };
 
+
 export const updateUser = (id, data) => {
   const index = users.findIndex(u => u.id === id);
   if (index === -1) return null;
-  users[index] = { ...users[index], ...data };
+
+  const { role, ...updateData } = data; 
+
+  users[index] = { ...users[index], ...updateData };
+
   return users[index];
 };
 
-export const deleteUser = (id) => {
-  const index = users.findIndex(u => u.id === id);
-  if (index === -1) return null;
-  return users.splice(index, 1)[0];
-};
 
-export const login = (email, password) => {
-  const user = users.find(u => u.email === email);
+export const deleteUser = async (id) => await User.findByIdAndDelete(id);
+
+export const login = async (email, password) => {
+  const user = await User.findOne({ email });
   if (!user) return null;
-
   const isMatch = bcrypt.compareSync(password, user.password);
-  if (!isMatch) return null;
-
-  return user;
+  return isMatch ? user : null;
 };
-
-
