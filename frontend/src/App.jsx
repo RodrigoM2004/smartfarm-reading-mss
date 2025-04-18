@@ -4,13 +4,13 @@ import LoginPage from './pages/auth/LoginPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import ForumPage from './pages/forum/ForumPage';
-import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import NavLanding from './components/NavLanding/NavLanding';
 
 function App() {
   return (
     <Router>
-      <Navbar />
+      <NavLanding />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
