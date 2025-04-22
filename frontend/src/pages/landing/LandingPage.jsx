@@ -4,10 +4,14 @@ import sensor from "../../assets/sensor.png";
 import { FaWifi, FaTemperatureHigh, FaSun, FaTint } from "react-icons/fa";
 import Button from "../../components/ui/Button";
 import Card from "./components/Card";
+import NavLanding from "/src/components/NavLanding/NavLanding.jsx";
 
 export default function LandingPage() {
   return (
+    <>
+    <NavLanding />
     <div className="bg-gray-100">
+      
       {/* Seção do topo */}
       <div
         className="relative overflow-hidden flex items-center"
@@ -100,5 +104,6 @@ export default function LandingPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
