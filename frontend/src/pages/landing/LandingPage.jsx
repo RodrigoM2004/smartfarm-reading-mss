@@ -83,7 +83,8 @@ export default function LandingPage() {
               "Dados em tempo real da umidade do solo, temperatura ambiente e luminosidade para decisões precisas."
             }
             icon={<FaTint />}
-            iconColor={"blue"}
+            iconColor={"text-blue-600"}
+            iconBg={"bg-blue-100"}
           ></Card>
           <Card
             title={"Análises Preditivas"}
@@ -91,7 +92,8 @@ export default function LandingPage() {
               "Relatórios detalhados e previsões para otimizar o uso de insumos e aumentar a produtividade."
             }
             icon={<FaTemperatureHigh />}
-            iconColor={"red"}
+            iconColor={"text-red-600"}
+            iconBg={"bg-red-100"}
           ></Card>
           <Card
             title={"Conectividade Total"}
@@ -99,7 +101,8 @@ export default function LandingPage() {
               "Sistema integrado que funciona mesmo em áreas remotas, com baixo consumo de energia."
             }
             icon={<FaWifi />}
-            iconColor={"green"}
+            iconColor={"text-green-600"}
+            iconBg={"bg-green-100"}
           ></Card>
         </div>
       </div>
