@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Button from "../ui/Button";
 import logo from "/src/assets/logo.png";
+import { HiMenu, HiX } from "react-icons/hi";
 
 export default function NavLandingMobile() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="md:hidden">
+    <div className="md:hidden z-50">
       <div className="flex items-center justify-between">
         {/* Botão toggler Menu */}
         <button
@@ -16,46 +17,40 @@ export default function NavLandingMobile() {
           aria-expanded={isOpen}
           aria-label="Toggle navigation"
         >
-          <svg
-            className="h-6 w-6 transition-transform duration-200"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {isOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
+          {isOpen ? (
+            <HiX className="h-6 w-6 transition-transform duration-200" />
+          ) : (
+            <HiMenu className="h-6 w-6 transition-transform duration-200" />
+          )}
         </button>
 
         {/* Logo */}
-        <Link to="/" className="absolute items-center right-5" onClick={() => setIsOpen(false)}>
+        <Link
+          to="/"
+          className="absolute items-center right-5"
+          onClick={() => setIsOpen(false)}
+        >
           <img src={logo} alt="SmartFarm Logo" className="h-10" />
         </Link>
 
         <div className="w-10"></div>
       </div>
 
+      {/* Overlay quando o menu está aberto */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black top-50 opacity-50 z-40"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
       {/* Links */}
       <div
-        className={`fixed left-0 right-0 transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`fixed mt-5 left-0 right-0 transition-all duration-300 ease-in-out overflow-hidden z-50 ${
           isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="pt-6 pb-4 space-y-1">
+        <div className="bg-white">
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -98,7 +93,11 @@ export default function NavLandingMobile() {
 
           {/* Botão de "Entrar" */}
           <div className="mt-4">
-            <Link to="/login" className="block" onClick={() => setIsOpen(false)}>
+            <Link
+              to="/login"
+              className="block"
+              onClick={() => setIsOpen(false)}
+            >
               <Button className="w-full rounded-sm">ENTRAR</Button>
             </Link>
           </div>
