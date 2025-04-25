@@ -7,12 +7,13 @@ import Card from "./components/Card";
 import NavLanding from "/src/components/NavLanding/NavLanding.jsx";
 
 export default function LandingPage() {
+
   return (
     <>
     <NavLanding />
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 pt-16">
       
-      {/* Seção do topo */}
+      {/* Seção do topo (hero) */}
       <div
         className="relative overflow-hidden flex items-center"
         style={{
@@ -57,8 +58,8 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Seção do Meio */}
-      <div className="container mx-auto py-12 my-12 px-8">
+      {/* Seção "Sobre" */}
+      <div className="container mx-auto py-12 my-12 px-8" id="about">
         <div className="text-center mb-12">
           <div className="flex justify-center items-center gap-4 mb-6">
             <div className="text-green-600 font-bold text-lg">

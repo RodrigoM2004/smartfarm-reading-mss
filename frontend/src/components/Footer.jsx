@@ -16,20 +16,21 @@ export default function Footer() {
           <Link to="/services">
             <Button> Veja os nossos serviços</Button>
           </Link>
-          <Button
-            background="bg-white"
-            text="text-green-600"
-            hover="hover:bg-gray-200"
-            className="flex items-center"
-          >
-            <FaHeadset className="me-2 text-xl" /> Fale com nossa equipe
-          </Button>
+          <Link to="https://www.linkedin.com/in/brunogiannini/" target="_blank">
+            <Button
+              background="bg-white"
+              text="text-green-600"
+              hover="hover:bg-gray-200"
+              className="flex items-center"
+            >
+              <FaHeadset className="me-2 text-xl" /> Fale com nossa equipe
+            </Button>
+          </Link>
         </div>
         <div className="mt-12 mb-0 text-sm opacity-80">
           2025 SmartFarm. Versão: 1.0.0
+        </div>
       </div>
-      </div>
-
     </div>
   );
 }
