@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+.app_container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  font-family: 'Quicksand', sans-serif !important;
+}
+
