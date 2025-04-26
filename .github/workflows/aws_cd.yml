@@ -29,14 +29,14 @@ jobs:
             echo "STACK_NAME=SmartfarmStackFront${{github.ref_name}}" >> $GITHUB_ENV
         - name: Installing Dependencies
           run: |
+            cd frontend
             npm install vite
             npm install -g aws-cdk
             npm install
-            cd iac
+            cd ../iac
             npm install
         - name: Build and Export
           run: |
-            pwd
             cd frontend
             npx vite build
           env: 
