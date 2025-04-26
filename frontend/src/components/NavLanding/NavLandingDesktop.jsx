@@ -40,12 +40,13 @@ export default function NavLandingDesktop() {
     hover:border-gray-300 hover:text-gray-700`}
           >
             Serviços
-          </a><a
+          </a>
+          <a
             href="#products"
             className={`inline-flex items-center px-1 pt-1 border-b-2 text-md font-bold 
     ${
       activeSection === "products"
-        ? "text-green-600 border-green-600 text-lg" 
+        ? "text-green-600 border-green-600 text-lg"
         : "text-gray-500 border-transparent"
     } 
     hover:border-gray-300 hover:text-gray-700`}
