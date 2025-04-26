@@ -30,10 +30,10 @@ jobs:
         - name: Installing Dependencies
           run: |
             npm add vite
-            npm global add aws-cdk
-            npm install -g
+            npm install -g aws-cdk
+            npm install
             cd iac
-            npm install -g
+            npm install
         - name: Build and Export
           run: |
             npm vite build
