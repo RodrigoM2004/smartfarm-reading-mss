@@ -15,10 +15,11 @@ class IacStack extends cdk.Stack {
     super(scope, id, props);
 
     const stage = 'main';
+    const acmCertificateArn = process.env.SMARTFARM_ACM_CERTIFICATE_ARN;
     const alternativeDomain =
       'smartfarmmaua.com.br';
     const hostedZoneIdValue = process.env.SMARTFARM_HOSTED_ZONE_ID;
-    const projectName = 'SmartfarmFront';
+    const projectName = 'SmartfarmFront'; 
 
     const s3Bucket = new s3.Bucket(this, 'SmartfarmFrontBucket' + stage, {
       versioned: true,
