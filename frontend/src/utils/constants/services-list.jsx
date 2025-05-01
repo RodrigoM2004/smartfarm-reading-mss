@@ -38,3 +38,26 @@ export const mainServices = [
     ]
   }
 ];
+
+export const additionalServices = [
+  {
+    icon: <FaMobileAlt className="text-blue-400" size={24} />,
+    title: "Aplicativo Mobile",
+    description: "Controle sua fazenda de qualquer lugar através do nosso aplicativo exclusivo."
+  },
+  {
+    icon: <FaCloud className="text-gray-500" size={24} />,
+    title: "Armazenamento em Nuvem",
+    description: "Todos seus dados seguros e acessíveis de qualquer dispositivo."
+  },
+  {
+    icon: <FaTools className="text-red-500" size={24} />,
+    title: "Manutenção Preventiva",
+    description: "Nossa equipe realiza manutenções periódicas para evitar falhas."
+  },
+  {
+    icon: <FaHeadset className="text-green-600" size={24} />,
+    title: "Suporte 24/7",
+    description: "Equipe especializada disponível a qualquer momento para auxiliar."
+  }
+];
