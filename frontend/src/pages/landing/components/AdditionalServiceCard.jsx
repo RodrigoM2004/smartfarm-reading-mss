@@ -2,7 +2,7 @@ import React from "react";
 
 export function AdditionalServiceCard({ service }) {
   return (
-    <div className="flex bg-white p-6 transition-all duration-300 h-full">
+    <div className="flex bg-white p-6 rounded-lg border-0 shadow-sm hover:shadow-lg transition-all duration-300 h-full">
       <div className="mr-4 text-gray-300 flex-shrink-0">
         {service.icon}
       </div>
