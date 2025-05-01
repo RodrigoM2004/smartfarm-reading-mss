@@ -23,21 +23,21 @@ export default function AboutSection() {
         <AboutCard
           title="Monitoramento Preciso"
           description="Dados em tempo real da umidade do solo, temperatura ambiente e luminosidade para decisões precisas."
-          icon={<FaTint />}
+          icon={<FaTint size={24}/>}
           iconColor="text-blue-600"
           iconBg="bg-blue-100"
         />
         <AboutCard
           title="Análises Preditivas"
           description="Relatórios detalhados e previsões para otimizar o uso de insumos e aumentar a produtividade."
-          icon={<FaTemperatureHigh />}
+          icon={<FaTemperatureHigh size={24}/>}
           iconColor="text-red-600"
           iconBg="bg-red-100"
         />
         <AboutCard
           title="Conectividade Total"
           description="Sistema integrado que funciona mesmo em áreas remotas, com baixo consumo de energia."
-          icon={<FaWifi />}
+          icon={<FaWifi size={24}/>}
           iconColor="text-green-600"
           iconBg="bg-green-100"
         />
