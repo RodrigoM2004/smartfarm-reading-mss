@@ -34,6 +34,7 @@ jobs:
             npm install -g aws-cdk
             npm install
             cd ../iac
+            npm install
             cdk bootstrap aws://${{ secrets.AWS_ACCOUNT_ID }}/${{ vars.AWS_REGION }}
         - name: Build and Export
           run: |
