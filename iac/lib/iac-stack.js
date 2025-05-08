@@ -6,8 +6,6 @@ const { Certificate } = require('aws-cdk-lib/aws-certificatemanager');
 const route53 = require('aws-cdk-lib/aws-route53');
 const route53Targets = require('aws-cdk-lib/aws-route53-targets');
 const iam = require('aws-cdk-lib/aws-iam');
-const lambda = require('aws-cdk-lib/aws-lambda');
-
 const constructs = require('constructs');
 
 class IacStack extends cdk.Stack {
