@@ -1,5 +1,5 @@
 {
-  "app": "node frontend/iac/bin/iac.js",
+  "app": "node bin/iac.js",
   "watch": {
     "include": [
       "frontend/iac/**/*.js"
