@@ -1,4 +1,3 @@
-import React from "react";
 import bgimage from "../../assets/landingpage_bg.jpeg";
 import sensor from "../../assets/sensor.png";
 import Button from "../../components/ui/Button";

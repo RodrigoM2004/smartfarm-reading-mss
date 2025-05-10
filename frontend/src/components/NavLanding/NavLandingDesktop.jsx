@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import logo from "/src/assets/logo.png";
 import { useScrollSpy } from "../../hooks/useScrollSpy.js";
