@@ -51,45 +51,27 @@ export default function NavLandingMobile() {
         }`}
       >
         <div className="bg-white">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `block px-8 py-2 rounded-md text-base font-medium ${
-                isActive
-                  ? "bg-green-50 text-green-700"
-                  : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-              }`
-            }
+          <a
+            href="#about"
+            className="`position-relative block px-8 py-2 rounded-md font-bold text-gray-700 hover:bg-gray-50 hover:text-gray-900"
             onClick={() => setIsOpen(false)}
           >
-            Home
-          </NavLink>
-          <NavLink
-            to="/services"
-            className={({ isActive }) =>
-              `block px-8 py-2 rounded-md text-base font-medium ${
-                isActive
-                  ? "bg-green-50 text-green-700"
-                  : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-              }`
-            }
+            Sobre
+          </a>
+          <a
+            href="#services"
+            className="`position-relative block px-8 py-2 rounded-md font-bold text-gray-700 hover:bg-gray-50 hover:text-gray-900"
             onClick={() => setIsOpen(false)}
           >
             Serviços
-          </NavLink>
-          <NavLink
-            to="/products"
-            className={({ isActive }) =>
-              `block px-8 py-2 rounded-md text-base font-medium ${
-                isActive
-                  ? "bg-green-50 text-green-700"
-                  : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-              }`
-            }
+          </a>
+          <a
+            href="#products"
+            className="`position-relative block px-8 py-2 rounded-md font-bold text-gray-700 hover:bg-gray-50 hover:text-gray-900"
             onClick={() => setIsOpen(false)}
           >
             Produtos
-          </NavLink>
+          </a>
 
           {/* Botão de "Entrar" */}
           <div className="mt-4">
