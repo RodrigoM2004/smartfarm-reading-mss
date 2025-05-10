@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import Button from "../ui/Button";
 import logo from "/src/assets/logo.png";
 
+
 export default function NavLandingDesktop() {
   return (
     <div className="hidden md:flex md:items-center md:justify-between w-full">
