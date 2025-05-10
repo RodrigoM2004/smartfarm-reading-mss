@@ -4,7 +4,6 @@ import LoginPage from './pages/auth/LoginPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import ForumPage from './pages/forum/ForumPage';
-import Footer from './components/Footer';
 
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/forum" element={<ForumPage />} />
       </Routes>
-      <Footer />
     </Router>
   );
 }
