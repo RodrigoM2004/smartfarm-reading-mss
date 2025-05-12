@@ -1,7 +1,15 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
+import { useSidebar } from '../../utils/contexts/SidebarContext';
+import { useEffect } from 'react';
 
 export default function MapPage() {
+
+    const { setSelectedIndex } = useSidebar()
+
+    useEffect(() => {
+    setSelectedIndex(0)
+  }, [setSelectedIndex])
 
     const position = [-23.6785, -46.7039]
 
