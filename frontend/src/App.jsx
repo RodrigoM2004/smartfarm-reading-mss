@@ -4,6 +4,8 @@ import LoginPage from './pages/auth/LoginPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import ForumPage from './pages/forum/ForumPage';
+import MapPage from './pages/dashboard/mapPage';
+import TemperaturePage from './pages/dashboard/tempPage';
 
 function App() {
   return (
@@ -12,7 +14,10 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<DashboardPage />}>
+          <Route path='map' element={<MapPage />}/>
+          <Route path='temp' element={<TemperaturePage />}/>
+        </Route>
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/forum" element={<ForumPage />} />
       </Routes>

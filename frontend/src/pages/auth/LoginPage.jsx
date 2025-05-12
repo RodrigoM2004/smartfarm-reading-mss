@@ -2,6 +2,7 @@ import logo from "/src/assets/logo.png";
 import StyledInput from "./components/styledInput";
 import {useState} from "react"
 import  LoginImage  from  "/src/assets/login_image.png";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
 
@@ -12,8 +13,11 @@ export default function LoginPage() {
     const [name, setName] = useState("")
     const [surname, setSurname] = useState("")
 
+    const navigate = useNavigate();
+
     function SendLogin() {
         console.log("E-mail: " +  email + "Password: " + password + "Name: " + name + "Surname: " + surname)
+        navigate("/dashboard/map")
     }
 
 
@@ -50,7 +54,7 @@ export default function LoginPage() {
                         </form>
                     </div>
                    <div className="h-[15%] w-full flex flex-row items-center justify-between pt-12">
-                    <button className="bg-blue-950 text-white rounded-md px-8 py-2"  onClick={SendLogin}>{isLogin ? "Entrar": "Cadastrar"}</button>
+                    <button className="bg-blue-950 text-white rounded-md px-8 py-2 cursor-pointer w-32 flex items-center justify-center"  onClick={SendLogin}>{isLogin ? "Entrar": "Cadastrar"}</button>
                      </div>
                 </div>
 
