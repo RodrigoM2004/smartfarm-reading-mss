@@ -5,6 +5,7 @@ import NavLanding from "/src/components/NavLanding/NavLanding.jsx";
 import AboutSection from "./components/AboutSection";
 import ServicesSection from "./components/ServicesSection";
 import Footer from '/src/components/Footer.jsx';
+import ProductsSection from "./components/ProductsSection";
 
 export default function LandingPage() {
   return (
@@ -60,6 +61,7 @@ export default function LandingPage() {
         </div>
         <AboutSection/>
         <ServicesSection/>
+        <ProductsSection/>
       </div>
       
         <Footer />
