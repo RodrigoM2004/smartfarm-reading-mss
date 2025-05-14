@@ -2,10 +2,12 @@ import { FaMap, FaSun, FaFlask, FaThermometerHalf, FaBatteryFull } from "react-i
 import {useState} from "react"
 import { useSidebar } from "../../../../utils/contexts/SidebarContext"
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../../../utils/contexts/UserContext";
 
 export default function DashSidebar() {
   const { selectedIndex, setSelectedIndex } = useSidebar();
   const navigate = useNavigate();
+  const {userData} = useUser()
 
   const menuItems = [
     { title: "MAPA", icon: <FaMap size={24}/>, path: "map" },
@@ -23,7 +25,9 @@ export default function DashSidebar() {
   return (
     <div className="w-1/7 h-full bg-white absolute left-0">
       <div className="flex flex-col w-full h-screen">
-        <div className="w-full h-1/3"></div>
+        <div className="w-full h-1/3 flex items-center justify-center">
+            {"teste do " + userData.name}
+        </div>
         <div className="w-full h-1/3 flex flex-col items-end justify-center gap-2">
           {menuItems.map((item, index) => (
             <SideBarButton 

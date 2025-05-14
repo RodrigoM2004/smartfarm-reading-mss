@@ -10,10 +10,13 @@ import { SidebarProvider } from './utils/contexts/SidebarContext';
 import LumPage from './pages/dashboard/lumPage';
 import PhPage from './pages/dashboard/phPage';
 import BateryPage from './pages/dashboard/batPage';
+import { UserProvider } from './utils/contexts/UserContext';
 
 function App() {
   return (
+   
     <Router>
+       <UserProvider>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -31,7 +34,9 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/forum" element={<ForumPage />} />
       </Routes>
+      </UserProvider>
     </Router>
+   
   );
 }
 

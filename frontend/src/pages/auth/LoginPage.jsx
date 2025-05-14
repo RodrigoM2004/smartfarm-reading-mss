@@ -3,10 +3,13 @@ import StyledInput from "./components/styledInput";
 import {useState} from "react"
 import  LoginImage  from  "/src/assets/login_image.png";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../utils/contexts/UserContext";
 
 export default function LoginPage() {
 
     const [isLogin, setIsLogin] = useState(true)
+
+    const {login} = useUser()
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -16,8 +19,7 @@ export default function LoginPage() {
     const navigate = useNavigate();
 
     function SendLogin() {
-        console.log("E-mail: " +  email + "Password: " + password + "Name: " + name + "Surname: " + surname)
-        navigate("/dashboard/map")
+        login()
     }
 
 
