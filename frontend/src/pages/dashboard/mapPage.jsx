@@ -2,10 +2,12 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 import { useSidebar } from '../../utils/contexts/SidebarContext';
 import { useEffect } from 'react';
+import { useUser } from '../../utils/contexts/UserContext';
 
 export default function MapPage() {
 
     const { setSelectedIndex } = useSidebar()
+    const { userData } = useUser()
 
     useEffect(() => {
     setSelectedIndex(0)
@@ -27,11 +29,14 @@ export default function MapPage() {
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       style = {{height: "100px"}}
     />
-    <Marker position={[-23.6785, -46.7039]} riseOnHover = {true}>
-    <Popup >
-        teste
-    </Popup>
-  </Marker>
+    {userData.sensors.map((sensor) => {
+        return <Marker key={sensor.id} position={[sensor.latitude, sensor.longitude]} riseOnHover = {true}>
+            <Popup>
+                {sensor.id}
+            </Popup>
+        </Marker>
+})}
+   
     
   </MapContainer>
     </div>
