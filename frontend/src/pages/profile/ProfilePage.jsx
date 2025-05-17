@@ -1,17 +1,38 @@
 // src/pages/ProfilePage.jsx
 import { useState } from 'react';
-import { FiEdit, FiClock, FiMapPin, FiTrendingUp, FiX } from "react-icons/fi";
-import { FaLeaf, FaTint, FaTemperatureHigh, FaSun } from "react-icons/fa";
-import { userProfile } from "./components/userData";
+import { FiEdit, FiClock, FiMapPin, FiX } from "react-icons/fi";
 import { userActions } from "./components/userActions";
-import logo from "../../assets/logo.png";
+import { useUser } from '../../utils/contexts/UserContext';
+import farmerBasic from '../../assets/farmerBasic.png';
+import farmerIntermediary from '../../assets/farmerIntermediary.png';
+import farmerPremium from '../../assets/farmerPremium.png';
+import { timestampToDate } from '../../utils/formatters/date-formatters';
 
 export default function ProfilePage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { userData } = useUser();
+  const [ userAvatar, setUserAvatar ] = useState();
+
+  const handleUserAvatar = () => {
+    if (userData.role === 'user-basic') {
+      setUserAvatar(farmerBasic);
+    }
+    if (userData.role === 'user-intermediary') {
+      setUserAvatar(farmerIntermediary);
+    }
+    if (userData.role === 'user-premium') {
+      setUserAvatar(farmerPremium);
+    }
+  }
+
+  useState(() => {
+    handleUserAvatar();
+  }, []);
+
 
   return (
     <div className="profile-page bg-gray-50">
-      {/* Pop up para a edição de perfil (WIP) */}
+      {/* Pop up para a edição de perfil */}
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
@@ -30,16 +51,7 @@ export default function ProfilePage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
                 <input
                   type="text"
-                  defaultValue={userProfile.name}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nome da Fazenda</label>
-                <input
-                  type="text"
-                  defaultValue={userProfile.farm.name}
+                  defaultValue={userData.name}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
               </div>
@@ -48,7 +60,7 @@ export default function ProfilePage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input
                   type="email"
-                  defaultValue={userProfile.email}
+                  defaultValue={userData.email}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
               </div>
@@ -58,7 +70,7 @@ export default function ProfilePage() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
                   <input
                     type="text"
-                    defaultValue={userProfile.role}
+                    defaultValue={userData.role}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   />
                 </div>
@@ -97,16 +109,13 @@ export default function ProfilePage() {
             backgroundPosition: 'center'
           }}
         >
-          <div className="absolute top-4 right-4">
-            <img src={logo} alt="Logo" className="h-15 sm:h-0" />
-          </div>
         </div>
         
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center md:items-end -mt-16 relative z-10">
             <div className="relative">
               <img 
-                src={userProfile.avatar} 
+                src={userAvatar} 
                 className="w-50 h-50 rounded-full border-4 border-white shadow-lg"
                 alt="Avatar do usuário"
               />
@@ -119,12 +128,12 @@ export default function ProfilePage() {
             </div>
             
             <div className="md:ml-8 mt-4 md:mt-0 text-center md:text-left">
-              <h1 className="text-2xl font-bold text-gray-800">{userProfile.name}</h1>
-              <p className="text-gray-600">{userProfile.role}</p>
+              <h1 className="text-2xl font-bold text-gray-800">{userData.name}</h1>
+              <p className="text-gray-600">{userData.role}</p>
               
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-3">
                 <span className="flex items-center text-sm text-gray-600">
-                  <FiClock className="mr-1" /> Membro desde {userProfile.dateOfJoining}
+                  <FiClock className="mr-1" /> Membro desde {timestampToDate(userData.dateOfJoining)}
                 </span>
               </div>
             </div>
@@ -134,36 +143,7 @@ export default function ProfilePage() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Informações da Fazenda */}
-          <div className="lg:w-1/3">
-            <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-              <h2 className="text-xl font-bold mb-4 flex items-center">
-                <FaLeaf className="text-green-500 mr-2" /> Minha Fazenda
-              </h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold text-gray-800">{userProfile.farm.name}</h3>
-                  <p className="text-gray-600 flex items-center">
-                    <FiMapPin className="mr-2" /> {userProfile.farm.location}
-                  </p>
-                </div>
-                
-                <div className="gap-4">
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-500">Tamanho</p>
-                    <p className="font-semibold">{userProfile.farm.size}</p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-500">Número de sensores</p>
-                    <p className="font-semibold">8</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:w-2/3">
+          <div>
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
               <h2 className="text-xl font-bold mb-6">Ações Rápidas</h2>
               
