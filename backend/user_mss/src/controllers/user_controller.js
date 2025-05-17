@@ -12,13 +12,13 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const user = await userService.getUserById(req.params.id);
+    const user = await userService.getUserByUserId(req.params.id);
     if (!user) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
     res.json(user);
   } catch (err) {
-    res.status(500).json({ message: `Erro ao recuperar usuário com ID ${req.params.id}: ${err.message}` });
+    res.status(500).json({ message: `Erro ao recuperar usuário com userId ${req.params.id}: ${err.message}` });
   }
 };
 
@@ -33,25 +33,25 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const updatedUser = await userService.updateUser(req.params.id, req.body);
+    const updatedUser = await userService.updateUserByUserId(req.params.id, req.body);
     if (!updatedUser) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
     res.json(updatedUser);
   } catch (err) {
-    res.status(400).json({ message: `Erro ao atualizar usuário com ID ${req.params.id}: ${err.message}` });
+    res.status(400).json({ message: `Erro ao atualizar usuário com userId ${req.params.id}: ${err.message}` });
   }
 };
 
 export const deleteUser = async (req, res) => {
   try {
-    const deletedUser = await userService.deleteUser(req.params.id);
+    const deletedUser = await userService.deleteUserByUserId(req.params.id);
     if (!deletedUser) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
     res.status(204).send();
   } catch (err) {
-    res.status(400).json({ message: `Erro ao excluir usuário com ID ${req.params.id}: ${err.message}` });
+    res.status(400).json({ message: `Erro ao excluir usuário com userId ${req.params.id}: ${err.message}` });
   }
 };
 
@@ -63,7 +63,7 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { userId: user.userId, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );

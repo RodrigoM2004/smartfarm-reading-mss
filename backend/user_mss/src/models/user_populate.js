@@ -13,37 +13,34 @@ const mockUsers = [
     name: "Carla Teste",
     email: "carla@email.com",
     password: "123456",
-    role: "user",
-    address: "Rua dos Testes, 123",
-    dateOfJoining: new Date(1713139200000)
+    address: "Rua dos Testes, 123"
   },
   {
     name: "Admin Silva",
     email: "admin@email.com",
     password: "admin123",
-    role: "admin",
     address: "Av. MongoDB, 456",
-    dateOfJoining: new Date()
+    role: "admin"
   },
-
   {
     name: "Produtor João",
     email: "joao@fazenda.com",
     password: "agricultura123",
-    role: "user",
-    address: "Fazenda Feliz, Zona Rural",
-    dateOfJoining: new Date()
+    address: "Fazenda Feliz, Zona Rural"
   }
 ];
 
-// Função para inserir os dados
 async function insertMockUsers() {
   try {
-    await User.deleteMany({}); // Opcional: limpa a coleção antes de inserir
-    await User.insertMany(mockUsers);
-    console.log('Dados mockados inseridos com sucesso!');
+    await mongoose.connection.db.dropCollection('users'); // Limpa a coleção
+
+    for (const mockUser of mockUsers) {
+      await userService.createUser(mockUser); // Usa a lógica da aplicação
+    }
+
+    console.log('Mock users inseridos com sucesso!');
   } catch (err) {
-    console.error('Erro ao inserir dados:', err);
+    console.error('Erro ao inserir mock users:', err);
   } finally {
     mongoose.disconnect();
   }
