@@ -7,9 +7,12 @@ export function UserProvider({ children }) {
 
     const UserMock = {
         id: "123",
+        role: "user-premium",
         name: "Breno Amorim",
         email: "brenoamorim11@gmail.com",
         farm: "SmartFarm",
+        address: "Rua dos Três Irmãos, 123, São Paulo, SP",
+        dateOfJoining: Date.now(),
         sensors: [{
             id: "1",
             latitude: -23.6785, 
