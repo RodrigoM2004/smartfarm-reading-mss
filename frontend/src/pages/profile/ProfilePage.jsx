@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { FiEdit, FiClock, FiMapPin, FiX } from "react-icons/fi";
 import { userActions } from "./components/userActions";
-import { useUser } from '../../utils/contexts/UserContext';
+import { UserMock } from '../../utils/Mocks/UserMock';
 import farmerBasic from '../../assets/farmerBasic.png';
 import farmerIntermediary from '../../assets/farmerIntermediary.png';
 import farmerPremium from '../../assets/farmerPremium.png';
@@ -10,17 +10,16 @@ import { timestampToDate } from '../../utils/formatters/date-formatters';
 
 export default function ProfilePage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const { userData } = useUser();
   const [ userAvatar, setUserAvatar ] = useState();
 
   const handleUserAvatar = () => {
-    if (userData.role === 'user-basic') {
+    if (UserMock.role === 'user-basic') {
       setUserAvatar(farmerBasic);
     }
-    if (userData.role === 'user-intermediary') {
+    if (UserMock.role === 'user-intermediary') {
       setUserAvatar(farmerIntermediary);
     }
-    if (userData.role === 'user-premium') {
+    if (UserMock.role === 'user-premium') {
       setUserAvatar(farmerPremium);
     }
   }
@@ -51,7 +50,7 @@ export default function ProfilePage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
                 <input
                   type="text"
-                  defaultValue={userData.name}
+                  defaultValue={UserMock.name}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
               </div>
@@ -60,7 +59,7 @@ export default function ProfilePage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input
                   type="email"
-                  defaultValue={userData.email}
+                  defaultValue={UserMock.email}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
               </div>
@@ -70,7 +69,7 @@ export default function ProfilePage() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
                   <input
                     type="text"
-                    defaultValue={userData.role}
+                    defaultValue={UserMock.role}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   />
                 </div>
@@ -128,12 +127,12 @@ export default function ProfilePage() {
             </div>
             
             <div className="md:ml-8 mt-4 md:mt-0 text-center md:text-left">
-              <h1 className="text-2xl font-bold text-gray-800">{userData.name}</h1>
-              <p className="text-gray-600">{userData.role}</p>
+              <h1 className="text-2xl font-bold text-gray-800">{UserMock.name}</h1>
+              <p className="text-gray-600">{UserMock.role}</p>
               
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-3">
                 <span className="flex items-center text-sm text-gray-600">
-                  <FiClock className="mr-1" /> Membro desde {timestampToDate(userData.dateOfJoining)}
+                  <FiClock className="mr-1" /> Membro desde {timestampToDate(UserMock.dateOfJoining)}
                 </span>
               </div>
             </div>
