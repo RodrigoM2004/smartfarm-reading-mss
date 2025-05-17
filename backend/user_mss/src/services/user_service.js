@@ -1,12 +1,9 @@
 import User from '../models/user_model.js';
 import bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
 
 export const getAllUsers = async () => await User.find();
 
-export const getUserByUserId = async (userId) => {
-  return await User.findOne({ userId });
-};
+export const getUserById = async (id) => await User.findById(id);
 
 export const createUser = async (data) => {
   try {
@@ -20,42 +17,39 @@ export const createUser = async (data) => {
     const userData = {
       ...data,
       password: hashedPassword,
-      userId: uuidv4(),
-      dateOfJoining: Date.now(),
-      role: 'user-basic'
+      role: 'user', 
     };
 
     const newUser = new User(userData);
+
     await newUser.save();
 
     const userObj = newUser.toObject();
     delete userObj.password;
     return userObj;
   } catch (err) {
-    throw new Error(err.message);
+    throw new Error(err.message); 
   }
 };
 
-export const updateUserByUserId = async (userId, data) => {
+export const updateUser = async (id, data) => {
   try {
     if (data.password) {
       data.password = bcrypt.hashSync(data.password, 10);
     }
 
-    if ('role' in data) {
+    if (data.role) {
       throw new Error('Você não pode alterar o campo "role"');
     }
 
-    const updatedUser = await User.findOneAndUpdate({ userId }, data, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(id, data, { new: true });
     return updatedUser;
   } catch (err) {
-    throw new Error(err.message);
+    throw new Error(err.message); 
   }
 };
 
-export const deleteUserByUserId = async (userId) => {
-  return await User.findOneAndDelete({ userId });
-};
+export const deleteUser = async (id) => await User.findByIdAndDelete(id);
 
 export const login = async (email, password) => {
   const user = await User.findOne({ email });
