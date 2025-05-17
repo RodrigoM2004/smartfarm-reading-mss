@@ -25,8 +25,13 @@ export default function DashSidebar() {
   return (
     <div className="w-1/7 h-full bg-white absolute left-0">
       <div className="flex flex-col w-full h-screen">
-        <div className="w-full h-1/3 flex items-center justify-center">
-            {"teste do " + userData.name}
+        <div className="w-full h-1/3  justify-center p-8 flex flex-col items-center">
+            <div onClick={()=> navigate("/profile")} className="bg-blue-950 w-30 h-30 rounded-full hover:bg-blue-900 transition-colors duration-200 ease-in-out cursor-pointer" > </div>
+            <div className="">
+              <div className=" text-black text-md font-bold flex items-center justify-center">
+                  {userData.name}
+              </div>
+             </div>
         </div>
         <div className="w-full h-1/3 flex flex-col items-end justify-center gap-2">
           {menuItems.map((item, index) => (
