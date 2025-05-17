@@ -53,7 +53,7 @@ export default function DashSidebar() {
 function SideBarButton({ title, icon, isSelected, onClick }) {
   return (
     <div 
-      className={`w-full h-1/6 flex flex-row cursor-pointer ${!isSelected && 'opacity-70'}`}
+      className={`w-full h-1/6 flex flex-row cursor-pointer ${!isSelected && 'opacity-70 hover:opacity-100 hover:scale-101 transition-all duration-200 ease-in-out '}`}
       onClick={onClick}
     >
       <div className={`w-2 rounded-r-sm mr-2 ${isSelected ? 'bg-blue-950' : 'bg-transparent'}`}></div>
@@ -61,7 +61,7 @@ function SideBarButton({ title, icon, isSelected, onClick }) {
         {icon}
       </div>
       <div className="w-[80%] h-full flex items-center justify-start pl-2">
-        <h1 className={`font-bold ${isSelected ? 'text-blue-950' : 'text-gray-400'}`}>
+        <h1 className={`font-bold ${isSelected ? 'text-blue-950' : 'text-gray-400 '}`}>
           {title}
         </h1>
       </div>
