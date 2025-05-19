@@ -39,7 +39,6 @@ const processChartData = (sensors) => {
         default:
           dateMap[dateStr][`sensor_${sensor.id}`] = reading.luminosity; // Default case
       }
-      // dateMap[dateStr][`sensor_${sensor.id}`] = reading.temperature;
     });
   });
 
@@ -114,15 +113,26 @@ const CustomTooltip = ({ active, payload, label, info }) => {
   };
 
   return (
-    <div className="bg-gray-950 p-4 border border-gray-200 rounded-lg shadow-lg">
+    <div className="bg-gray-950 px-4 pb-4 border border-gray-200 rounded-lg shadow-lg">
+        <p className="mt-2 text-2xl font-bold text-gray-100">
+          {getInfoTitle()}
+        </p>
       <p className="font-bold text-white">
+        <div className='flex items-center justify-between'>
+          <div>
         {localDate.toLocaleDateString('pt-BR', { 
           day: '2-digit',
           month: '2-digit',
           year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        })}
+        })} {" "}
+          </div>
+          <div>
+
+        {localDate.getHours().toString().padStart(2, '0')}:
+        {localDate.getMinutes().toString().padStart(2, '0')}:
+        {localDate.getSeconds().toString().padStart(2, '0')}
+          </div>
+        </div>
       </p>
       <div className="grid grid-cols-2 gap-2 mt-2">
         {payload.map((entry, index) => (
@@ -134,15 +144,12 @@ const CustomTooltip = ({ active, payload, label, info }) => {
             <span className="text-sm font-medium text-white">
               {entry.name}:
             </span>
-            <span className="text-sm font-semibold ml-1 text-white">
-              {entry.value} {info === 'temp' ? '°C' : info === 'batery' || 'lum' ? '%'  : ''}
+            <span className="text-md font-semibold ml-1 text-white">
+              {entry.value} {info === 'temp' ? '°C' : info === 'batery' || info === 'lum' ? '%'  : ''}
             </span>
           </div>
         ))}
       </div>
-      <p className="mt-2 text-xs text-gray-500">
-        {getInfoTitle()} dos sensores
-      </p>
     </div>
   );
 };
