@@ -68,19 +68,11 @@ const chartData = processChartData(userData.sensors);
         />
               <YAxis tick={{ fontSize: 12 }} domain={['dataMin', 'dataMax']} />
               <Tooltip 
-                contentStyle={{
-                  fontSize: '14px',
-                  padding: '5px 10px'
-                }}
-                labelFormatter={(date) => {
-            const localDate = new Date(date);
-            localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
-            return localDate.toLocaleDateString('pt-BR');
-          }}
+                content={<CustomTooltip info={info} />}
               />
               
               {userData.sensors.map((sensor, index) => {
-                const colors = ['#162456', '#8884d8', '#82ca9d', '#ffc658', '#ff8042'];
+                const colors = ['#e64c6a', '#8884d8', '#82ca9d', '#ffc658', '#ff8042'];
                 const color = colors[index % colors.length];
                 
                 return (
@@ -90,8 +82,9 @@ const chartData = processChartData(userData.sensors);
                     dataKey={`sensor_${sensor.id}`}
                     name={`Sensor #${sensor.id}`}
                     stroke={color}
+                    strokeWidth={2}
                     activeDot={{ r: 6 }}
-                    dot={{ r: 2 }}
+                    dot={{ r: 3 }}
                     isAnimationActive={false}
                   />
                 );
@@ -101,3 +94,55 @@ const chartData = processChartData(userData.sensors);
           </div>
     )
 }
+
+const CustomTooltip = ({ active, payload, label, info }) => {
+  if (!active || !payload || !payload.length) return null;
+
+  // Ajusta a data para o fuso horário local
+  const localDate = new Date(label);
+  localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
+
+  // Define o título baseado no tipo de informação
+  const getInfoTitle = () => {
+    switch(info) {
+      case 'lum': return 'Luminosidade';
+      case 'ph': return 'pH';
+      case 'temp': return 'Temperatura';
+      case 'batery': return 'Bateria';
+      default: return 'Valor';
+    }
+  };
+
+  return (
+    <div className="bg-gray-950 p-4 border border-gray-200 rounded-lg shadow-lg">
+      <p className="font-bold text-white">
+        {localDate.toLocaleDateString('pt-BR', { 
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })}
+      </p>
+      <div className="grid grid-cols-2 gap-2 mt-2">
+        {payload.map((entry, index) => (
+          <div key={`item-${index}`} className="flex items-center bg-gray-900 p-1">
+            <div 
+              className="w-1 h-6 mr-2 rounded-full " 
+              style={{ backgroundColor: entry.color }}
+            />
+            <span className="text-sm font-medium text-white">
+              {entry.name}:
+            </span>
+            <span className="text-sm font-semibold ml-1 text-white">
+              {entry.value} {info === 'temp' ? '°C' : info === 'batery' || 'lum' ? '%'  : ''}
+            </span>
+          </div>
+        ))}
+      </div>
+      <p className="mt-2 text-xs text-gray-500">
+        {getInfoTitle()} dos sensores
+      </p>
+    </div>
+  );
+};

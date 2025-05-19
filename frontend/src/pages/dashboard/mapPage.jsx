@@ -52,7 +52,7 @@ export default function MapPage() {
                 </MapContainer>
             </div>
             
-            <div className='absolute h-[80%] w-[450px]  right-[2%] top-1/4 z-[999] flex flex-col gap-4 '>
+            <div className='absolute h-[60%] w-[450px]  right-[2%] top-1/4 z-[999] flex flex-col gap-4 '>
                 
                 <div className="p-4  w-full bg-white text-2xl rounded-md flex flex-row">
                   
