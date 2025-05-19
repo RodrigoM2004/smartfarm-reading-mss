@@ -25,10 +25,12 @@ export default function LumPage() {
         <div>
           
         </div>
-        <CustomLineChart />
+        <CustomLineChart info={"lum"}/>
         <div className='w-full h-100 rounded-md mb-8 flex flex-row gap-4'>
           <div className=' w-1/2 h-100 mt-8 grid grid-cols-2 gap-4'>
-            <div className='bg-white w-full h-full rounded-md'></div>
+            <div className='bg-white w-full h-full rounded-md'>
+              
+            </div>
             <div className='bg-white w-full h-full rounded-md'></div>
             <div className='bg-white w-full h-full rounded-md'></div>
             <div className='bg-white w-full h-full rounded-md'></div>

@@ -2,7 +2,7 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useUser } from "../../../../utils/contexts/UserContext";
 
-export default function CustomLineChart() {
+export default function CustomLineChart({info}) {
 
 const { userData } = useUser()
 
@@ -23,8 +23,23 @@ const processChartData = (sensors) => {
         };
       }
       
-      // Adiciona o valor deste sensor para esta data
-      dateMap[dateStr][`sensor_${sensor.id}`] = reading.luminosity;
+      switch (info) {
+        case 'lum':
+          dateMap[dateStr][`sensor_${sensor.id}`] = reading.luminosity;
+          break;
+        case 'ph':
+          dateMap[dateStr][`sensor_${sensor.id}`] = reading.ph;
+          break;
+        case 'temp':
+          dateMap[dateStr][`sensor_${sensor.id}`] = reading.temperature;
+          break;
+        case 'batery':
+          dateMap[dateStr][`sensor_${sensor.id}`] = reading.batery;
+          break;
+        default:
+          dateMap[dateStr][`sensor_${sensor.id}`] = reading.luminosity; // Default case
+      }
+      // dateMap[dateStr][`sensor_${sensor.id}`] = reading.temperature;
     });
   });
 
