@@ -50,7 +50,7 @@ const chartData = processChartData(userData.sensors);
 
     return (
         <div className='h-full w-full bg-white rounded-md' style={{ paddingLeft: 0 }}>
-        <ResponsiveContainer width="99%" height="100%" className={"   pt-2 rounded-md"}>
+        <ResponsiveContainer width="99%" height="100%" className={"pt-2 rounded-md"} >
             <LineChart
               data={chartData}
               margin={{ top: 10, right:20, left: -10, bottom: 5 }}
@@ -66,7 +66,7 @@ const chartData = processChartData(userData.sensors);
             return localDate.toLocaleDateString('pt-BR');
           }}
         />
-              <YAxis tick={{ fontSize: 12 }} domain={['dataMin - 1', 'dataMax']} />
+              <YAxis tick={{ fontSize: 12 }} domain={['dataMin', 'dataMax']} />
               <Tooltip 
                 contentStyle={{
                   fontSize: '14px',
