@@ -1,7 +1,7 @@
 import { useSidebar } from '../../utils/contexts/SidebarContext';
 import { useEffect } from 'react';
 import { useUser } from '../../utils/contexts/UserContext';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import CustomLineChart from './components/linechart/linechart';
 
 export default function LumPage() {
 
@@ -12,9 +12,7 @@ export default function LumPage() {
         setSelectedIndex(1)
       }, [setSelectedIndex])
 
-
-
-    return <div className="w-full h-full flex p-8 text-black text-5xl">
+    return <div className="w-full h-full flex p-8 text-black text-5x flex-col">
       <div className='w-full h-60'>
         <div className='w-full h-15  bg-white rounded-md mb-8 p-2'>
           <div className='w-1/5 h-full bg-blue-950 rounded-md flex items-center justify-center'>
@@ -22,20 +20,23 @@ export default function LumPage() {
              {dashboardFilterFinalData}
             </div>
           </div>
+          
         </div>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={userData.sensors[1].readings} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="data" />
-            <YAxis   tick={{ fontSize: 12 }}/>
-            <Tooltip contentStyle={{
-    fontSize: '14px',
-    padding: '5px 10px'
-  }}/>
-           
-            <Line type="monotone" dataKey="luminosity" stroke="#162456" activeDot={{ r: 8 }} />
-          </LineChart>
-        </ResponsiveContainer>
+        <div>
+          
+        </div>
+        <CustomLineChart />
+        <div className='w-full h-100 rounded-md mb-8 flex flex-row gap-4'>
+          <div className=' w-1/2 h-100 mt-8 grid grid-cols-2 gap-4'>
+            <div className='bg-white w-full h-full rounded-md'></div>
+            <div className='bg-white w-full h-full rounded-md'></div>
+            <div className='bg-white w-full h-full rounded-md'></div>
+            <div className='bg-white w-full h-full rounded-md'></div>
+          </div>
+          <div className='bg-white w-1/2 h-100 mt-8'>
+            
+          </div>
+        </div>
       </div>
     </div>
 }
