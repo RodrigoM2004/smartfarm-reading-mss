@@ -1,9 +1,11 @@
 import { useSidebar } from '../../utils/contexts/SidebarContext';
 import { useEffect } from 'react';
 import CustomLineChart from './components/linechart/linechart';
+import CustomList from './components/list/customList';
+import { useUser } from '../../utils/contexts/UserContext';
 
 export default function BateryPage() {
-
+        const { userData } = useUser()
         const { setSelectedIndex } = useSidebar()
     
         useEffect(() => {
@@ -34,7 +36,6 @@ export default function BateryPage() {
                 <div className='bg-white w-full h-full rounded-md'></div>
               </div>
               <div className='bg-white w-1/2 h-100 mt-8'>
-                
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@ import { useSidebar } from '../../utils/contexts/SidebarContext';
 import { useEffect } from 'react';
 import { useUser } from '../../utils/contexts/UserContext';
 import CustomLineChart from './components/linechart/linechart';
+import CustomList from './components/list/customList';
 
 export default function LumPage() {
 
@@ -35,7 +36,10 @@ export default function LumPage() {
             <div className='bg-white w-full h-full rounded-md'></div>
             <div className='bg-white w-full h-full rounded-md'></div>
           </div>
-          <div className='bg-white w-1/2 h-100 mt-8'>
+          <div className='bg-white w-1/2 h-100 mt-8 rounded-md'>
+            
+              <CustomList data={userData} info={"lum"}/>
+           
             
           </div>
         </div>

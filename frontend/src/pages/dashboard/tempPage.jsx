@@ -1,6 +1,6 @@
 import { useSidebar } from '../../utils/contexts/SidebarContext';
 import { useEffect } from 'react';
-
+import CustomList from './components/list/customList';
 import { useUser } from '../../utils/contexts/UserContext';
 import CustomLineChart from './components/linechart/linechart';
 
@@ -37,7 +37,7 @@ export default function TemperaturePage() {
                 <div className='bg-white w-full h-full rounded-md'></div>
               </div>
               <div className='bg-white w-1/2 h-100 mt-8'>
-                
+                <CustomList data={userData} info={"temp"}/>
               </div>
             </div>
           </div>

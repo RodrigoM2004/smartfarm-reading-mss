@@ -2,48 +2,13 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useUser } from "../../../../utils/contexts/UserContext";
 import { FaMap, FaSun, FaFlask, FaThermometerHalf, FaBatteryFull } from "react-icons/fa"
+import { processChartData } from '../../../../utils/dashHelper';
 
 export default function CustomLineChart({info}) {
 
 const { userData } = useUser()
 
-const processChartData = (sensors) => {
-  const dateMap = {};
-
-  sensors.forEach(sensor => {
-    sensor.readings.forEach(reading => {
-      const dateStr = new Date(reading.data).toISOString().split('T')[0];
-      
-      if (!dateMap[dateStr]) {
-        dateMap[dateStr] = {
-          date: reading.data,
-          ...Object.fromEntries(sensors.map(s => [`sensor_${s.id}`, null]))
-        };
-      }
-      
-      switch (info) {
-        case 'lum':
-          dateMap[dateStr][`sensor_${sensor.id}`] = reading.luminosity;
-          break;
-        case 'ph':
-          dateMap[dateStr][`sensor_${sensor.id}`] = reading.ph;
-          break;
-        case 'temp':
-          dateMap[dateStr][`sensor_${sensor.id}`] = reading.temperature;
-          break;
-        case 'batery':
-          dateMap[dateStr][`sensor_${sensor.id}`] = reading.batery;
-          break;
-        default:
-          dateMap[dateStr][`sensor_${sensor.id}`] = reading.luminosity; // Default case
-      }
-    });
-  });
-
-  return Object.values(dateMap).sort((a, b) => new Date(a.date) - new Date(b.date));
-};
-
-const chartData = processChartData(userData.sensors);
+const chartData = processChartData(userData.sensors, info);
 
     return (
         <div className='h-full w-full bg-white rounded-md' style={{ paddingLeft: 0 }}>
