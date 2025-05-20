@@ -1,6 +1,7 @@
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useUser } from "../../../../utils/contexts/UserContext";
+import { FaMap, FaSun, FaFlask, FaThermometerHalf, FaBatteryFull } from "react-icons/fa"
 
 export default function CustomLineChart({info}) {
 
@@ -9,16 +10,13 @@ const { userData } = useUser()
 const processChartData = (sensors) => {
   const dateMap = {};
 
-  // Para cada sensor
   sensors.forEach(sensor => {
-    // Para cada leitura do sensor
     sensor.readings.forEach(reading => {
       const dateStr = new Date(reading.data).toISOString().split('T')[0];
       
       if (!dateMap[dateStr]) {
         dateMap[dateStr] = {
           date: reading.data,
-          // Inicializa todos os sensores como null (serão preenchidos se tiverem dados)
           ...Object.fromEntries(sensors.map(s => [`sensor_${s.id}`, null]))
         };
       }
@@ -59,7 +57,6 @@ const chartData = processChartData(userData.sensors);
           dataKey="date"
           tick={{ fontSize: 12 }}
           tickFormatter={(date) => {
-            // Ajusta para o fuso horário local antes de formatar
             const localDate = new Date(date);
             localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
             return localDate.toLocaleDateString('pt-BR');
@@ -97,11 +94,9 @@ const chartData = processChartData(userData.sensors);
 const CustomTooltip = ({ active, payload, label, info }) => {
   if (!active || !payload || !payload.length) return null;
 
-  // Ajusta a data para o fuso horário local
   const localDate = new Date(label);
   localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
 
-  // Define o título baseado no tipo de informação
   const getInfoTitle = () => {
     switch(info) {
       case 'lum': return 'Luminosidade';
@@ -112,11 +107,27 @@ const CustomTooltip = ({ active, payload, label, info }) => {
     }
   };
 
+  const getInfoIcon = () => {
+    switch(info) {
+      case 'lum': return <FaSun size={24}/>;
+      case 'ph': return <FaFlask size={24}/>;
+      case 'temp': return <FaThermometerHalf size={24}/>;
+      case 'batery': return <FaBatteryFull size={24}/>;
+      default: return null;
+    }
+  };
+
   return (
     <div className="bg-gray-950 px-4 pb-4 border border-gray-200 rounded-lg shadow-lg">
+      <div className='flex flex-row text-gray-100 items-center'>
+        <div className='mt-3 mr-2'>
+
+        {getInfoIcon()}
+        </div>
         <p className="mt-2 text-2xl font-bold text-gray-100">
           {getInfoTitle()}
         </p>
+      </div>
       <p className="font-bold text-white">
         <div className='flex items-center justify-between'>
           <div>
@@ -133,17 +144,22 @@ const CustomTooltip = ({ active, payload, label, info }) => {
         {localDate.getSeconds().toString().padStart(2, '0')}
           </div>
         </div>
+        <div className='w-full h-[0.5px] bg-gray-500 rounded-md mt-3'>
+
+        </div>
       </p>
-      <div className="grid grid-cols-2 gap-2 mt-2">
+      <div className="grid grid-cols-2 gap-2 mt-3">
         {payload.map((entry, index) => (
-          <div key={`item-${index}`} className="flex items-center bg-gray-900 p-1">
+          <div key={`item-${index}`} className="flex items-center justify-between bg-gray-900 p-1">
+            <div className='flex flex-row items-center'>
             <div 
-              className="w-1 h-6 mr-2 rounded-full " 
+              className="w-1 h-6 mr-2 rounded-full flex flex-row items-center" 
               style={{ backgroundColor: entry.color }}
             />
             <span className="text-sm font-medium text-white">
               {entry.name}:
             </span>
+            </div>
             <span className="text-md font-semibold ml-1 text-white">
               {entry.value} {info === 'temp' ? '°C' : info === 'batery' || info === 'lum' ? '%'  : ''}
             </span>
