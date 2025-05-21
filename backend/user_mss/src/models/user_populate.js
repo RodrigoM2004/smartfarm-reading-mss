@@ -12,34 +12,37 @@ const mockUsers = [
   {
     name: "Carla Teste",
     email: "carla@email.com",
-    password: "123456",
-    role: "user",
+    password: bcrypt.hashSync("123456", 10),
     address: "Rua dos Testes, 123",
-    dateOfJoining: new Date(1713139200000)
+    userId: uuidv4(),
+    dateOfJoining: Date.now(),
+    sensors: []
   },
   {
     name: "Admin Silva",
     email: "admin@email.com",
-    password: "admin123",
+    password: bcrypt.hashSync("admin123", 10),
     role: "admin",
     address: "Av. MongoDB, 456",
-    dateOfJoining: new Date()
+    userId: uuidv4(),
+    dateOfJoining: Date.now(),
+    sensors: []
   },
-
   {
     name: "Produtor João",
     email: "joao@fazenda.com",
-    password: "agricultura123",
-    role: "user",
+    password: bcrypt.hashSync("agricultura123", 10),
     address: "Fazenda Feliz, Zona Rural",
-    dateOfJoining: new Date()
+    userId: uuidv4(),
+    dateOfJoining: Date.now(),
+    sensors: []
   }
 ];
 
 // Função para inserir os dados
 async function insertMockUsers() {
   try {
-    await User.deleteMany({}); // Opcional: limpa a coleção antes de inserir
+    await User.deleteMany({});
     await User.insertMany(mockUsers);
     console.log('Dados mockados inseridos com sucesso!');
   } catch (err) {
