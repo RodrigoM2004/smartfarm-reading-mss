@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserMock } from "../Mocks/UserMock"
+import axios from "axios"
 
 const UserContext = createContext()
 
@@ -53,12 +54,10 @@ export function UserProvider({ children }) {
         try{
             setLoading(true)
 
-            // ↓ Quando for implementar api
-            // const response = await api.post('/login', credentials)
+            const response = await axios.post('http://localhost:3000/users/login', {email: credentials.email, password: credentials.password}) 
             
-            // Se for implementar token 
-            // localStorage.setItem('token', response.data.token)
-            // api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
+            localStorage.setItem('token', response.data.token)
+            //api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
 
             await fetchUserData()
             setDashboardFilterInitialData(userData?.sensors[0]?.readings[0]?.data)
@@ -71,6 +70,20 @@ export function UserProvider({ children }) {
             setLoading(false)
         }
     } 
+
+    const register = async (userData) => {
+        try {
+            setLoading(true)
+            const response = await axios.post('http://localhost:3000/users/register', userData)
+            setUserData(response.data)
+            return response.data
+        } catch (error) {
+            setError(error.response?.data?.message || "Erro ao fazer login")
+            throw error
+        } finally {
+            setLoading(false)
+        }
+    }
 
     const logout = () => {
 
@@ -111,6 +124,7 @@ export function UserProvider({ children }) {
         login,
         logout,
         updateProfile,
+        register,
         isAuthenticated: !!userData,
         fetchUserData
     }
