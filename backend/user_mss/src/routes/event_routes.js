@@ -1,5 +1,5 @@
 import express from 'express';
-import { updateUserByUserId } from '../services/user_service';
+import { addSensor } from '../services/user_service.js';
 
 const router = express.Router();
 
