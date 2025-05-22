@@ -7,7 +7,7 @@ import {
   deleteUser,
   login
 } from '../controllers/user_controller.js';
-import { authenticateToken, authorizeUserOrAdmin } from '../middleware/user_middleware.js';
+import { authenticateToken, authorizeUserOrAdmin } from '../middleware/middleware.js';
 
 const router = express.Router();
 
