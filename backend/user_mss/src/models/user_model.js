@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['user-basic', 'user-intermediary', 'user-premium', 'admin'], default: 'user-basic'},
   address: { type: String, required: true },
   dateOfJoining: { type: Number, default: Date.now },
-  sensors: { type: [mongoose.Schema.Types.Mixed], default: [] }
+  sensorList: { type: [String], default: [] }
 });
 
 export default mongoose.model('User', userSchema);

@@ -1,15 +1,31 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { connectDB } from './config/db.js';
-import eventBusRoutes from './routes/event_bus_routes.js';
 
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
-app.use('/event_bus', eventBusRoutes);
-
-connectDB();
+app.use('/event', async (req, res) => {
+  const event = req.body
+  try{
+    await axios.post('http://localhost:3000/event', event)
+  }
+  catch(e){
+    console.log(e)
+  }
+  try {
+    await axios.post('http://localhost:3001/event', event)
+  } catch (e) {
+    console.log(e)
+  }
+  try{
+    await axios.post('http://localhost:3002/event', event)
+  }
+  catch(e){
+    console.log(e)
+  }
+  res.end()
+})
 
 export default app;

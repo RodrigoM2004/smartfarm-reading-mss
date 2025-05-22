@@ -1,4 +1,5 @@
 import * as sensorService from '../services/sensor_service.js';
+import axios from "axios";
 
 export const getAllSensors = async (req, res) => {
   try {
@@ -28,6 +29,13 @@ export const createSensor = async (req, res) => {
       userId: req.user.id,
       createdAt: Date.now()
     });
+    axios.post("http://localhost:3003/event", {
+      type: "SensorCreate",
+      data: {
+        user_id: req.user_id,
+        sensor_id: newSensor.sensorId
+      }
+    })
     res.status(201).json(newSensor);
   } catch (err) {
     res.status(400).json({ message: `Erro ao criar sensor: ${err.message}` });

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const sensorSchema = new mongoose.Schema({
+  sensorId: { type: String, default: uuidv4, unique: true },
   name: { type: String, required: true },
   latitude: { type: Number, required: true },
   longitude: { type: Number, required: true },

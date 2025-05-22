@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const readingSchema = new mongoose.Schema({
+  readingId: { type: String, default: uuidv4, unique: true },
   battery: { type: Number, required: true },
   temperature: { type: Number, required: true },
   humidity: { type: Number, required: true },
