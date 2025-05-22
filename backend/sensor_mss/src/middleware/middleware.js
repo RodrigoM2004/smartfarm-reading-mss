@@ -18,7 +18,7 @@
     });
   };
 
-  export const authorizeUserOrAdmin = async (req, res, next) => {
+  export const authorizeSensorUserOrAdmin = async (req, res, next) => {
     try {
     const { id, role } = req.user;
     const sensorId = req.params.id;
