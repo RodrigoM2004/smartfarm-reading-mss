@@ -53,6 +53,20 @@ export const updateUserByUserId = async (userId, data) => {
   }
 };
 
+export const addSensor = async (userId, sensorId) => {
+  try {
+    return await User.findOneAndUpdate(
+      { userId },
+      { $addToSet: { sensorList: sensorId } },
+      { new: true }
+    );
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
+
+
 export const deleteUserByUserId = async (userId) => {
   return await User.findOneAndDelete({ userId });
 };

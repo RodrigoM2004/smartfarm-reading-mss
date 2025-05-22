@@ -33,9 +33,7 @@ export const createSensor = async (req, res) => {
       type: "SensorCreate",
       data: {
         user_id: req.user_id,
-        sensor: {
-          sensor_id: newSensor.sensorId
-        }
+        sensor_id: newSensor.sensorId
       }
     })
     res.status(201).json(newSensor);
