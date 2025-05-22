@@ -1,6 +1,6 @@
   import jwt from 'jsonwebtoken';
   import dotenv from 'dotenv';
-  import Sensor from '../models/sensor_model.js';
+  import Reading from '../models/reading_model.js';
 
   dotenv.config();
 
@@ -18,19 +18,18 @@
     });
   };
 
-  export const authorizeUserOrAdmin = async (req, res, next) => {
+  export const authorizeReadingUserOrAdmin = async (req, res, next) => {
     try {
-    const { id, role } = req.user;
-    const sensorId = req.params.id;
+    const readingId = req.params.id;
+    const sensorId = req.body.sensor_id;
 
     if (role === 'admin') {
       return next();
     }
 
-    const sensor = await Sensor.findById(sensorId);
+    const reading = await Reading.findById(readingId);
 
-
-    if (sensor.userId.toString() !== id) {
+    if (reading.sensorId.toString() !== sensorId) {
       return res.status(403).json({ message: 'Acesso negado: sensor pertence a outro usuário.' });
     }
 
