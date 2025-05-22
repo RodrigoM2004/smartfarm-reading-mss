@@ -6,7 +6,7 @@ import {
   updateSensor,
   deleteSensor
 } from '../controllers/sensor_controller.js';
-import { authenticateToken } from '../middleware/middleware.js';
+import { authenticateToken, authorizeSensorUserOrAdmin } from '../middleware/middleware.js';
 
 const router = express.Router();
 
