@@ -66,6 +66,7 @@ export const addSensor = async (userId, sensorId) => {
 };
 
 export const removeSensor = async (userId, sensorId) => {
+  console.log(`Removing sensor ${sensorId} from user ${userId}`);
   try {
     return await User.findOneAndUpdate(
       { userId },
