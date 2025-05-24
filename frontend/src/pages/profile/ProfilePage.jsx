@@ -1,7 +1,6 @@
 // src/pages/ProfilePage.jsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {  FiClock } from "react-icons/fi";
-import { UserMock } from "../../utils/Mocks/UserMock";
 import farmerBasic from "../../assets/farmerBasic.png";
 import farmerIntermediary from "../../assets/farmerIntermediary.png";
 import farmerPremium from "../../assets/farmerPremium.png";
@@ -13,22 +12,24 @@ export default function ProfilePage() {
   const [userAvatar, setUserAvatar] = useState();
   const {fetchUserData} = useUser()
   
+  const { userData, setUserData} = useUser();
+
   const handleUserAvatar = () => {
-    if (UserMock.role === "user-basic") {
+    if (userData.role === "user-basic") {
       setUserAvatar(farmerBasic);
     }
-    if (UserMock.role === "user-intermediary") {
+    if (userData.role === "user-intermediary") {
       setUserAvatar(farmerIntermediary);
     }
-    if (UserMock.role === "user-premium") {
+    if (userData.role === "user-premium") {
       setUserAvatar(farmerPremium);
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     handleUserAvatar();
     fetchUserData()
-
+    console.log(userData.name)
   }, []);
 
   return (
@@ -54,12 +55,12 @@ export default function ProfilePage() {
 
             <div className="md:ml-8 mt-4 md:mt-0 text-center md:text-left">
               <h1 className="text-2xl font-bold text-gray-800">
-                {UserMock.name}
+                {userData.name}
               </h1>
               <p className="text-gray-600">
-                {UserMock.role === "user-basic"
+                {userData.role === "user-basic"
                   ? "Usuário Básico"
-                  : UserMock.role === "user-intermediary"
+                  : userData.role === "user-intermediary"
                   ? "Usuário Intermediário"
                   : "Usuário Premium"}
               </p>
@@ -67,7 +68,7 @@ export default function ProfilePage() {
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-3">
                 <span className="flex items-center text-sm text-gray-600">
                   <FiClock className="mr-1" /> Membro desde{" "}
-                  {timestampToDate(UserMock.dateOfJoining)}
+                  {timestampToDate(userData.dateOfJoining)}
                 </span>
               </div>
             </div>
@@ -83,7 +84,7 @@ export default function ProfilePage() {
             </label>
             <input
               type="text"
-              defaultValue={UserMock.name}
+              defaultValue={userData.name}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -94,7 +95,7 @@ export default function ProfilePage() {
             </label>
             <input
               type="email"
-              defaultValue={UserMock.email}
+              defaultValue={userData.email}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -107,9 +108,9 @@ export default function ProfilePage() {
               <input
                 type="text"
                 defaultValue={
-                  UserMock.role === "user-basic"
+                  userData.role === "user-basic"
                     ? "Básico"
-                    : UserMock.role === "user-intermediary"
+                    : userData.role === "user-intermediary"
                     ? "Intermediário"
                     : "Premium"
                 }
@@ -124,7 +125,7 @@ export default function ProfilePage() {
             </label>
             <input
               type="text"
-              defaultValue={UserMock.address}
+              defaultValue={userData.address}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
