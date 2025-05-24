@@ -65,7 +65,18 @@ export const addSensor = async (userId, sensorId) => {
   }
 };
 
-
+export const removeSensor = async (userId, sensorId) => {
+  try {
+    return await User.findOneAndUpdate(
+      { userId },
+      { $pull: { sensorList: sensorId } },
+      { new: true }
+    );
+  }
+  catch (err) {
+    throw new Error(err.message);
+  }
+}
 
 export const deleteUserByUserId = async (userId) => {
   return await User.findOneAndDelete({ userId });
