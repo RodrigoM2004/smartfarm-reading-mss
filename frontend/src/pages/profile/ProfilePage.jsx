@@ -1,6 +1,5 @@
-// src/pages/ProfilePage.jsx
 import { useEffect, useState } from "react";
-import {  FiClock } from "react-icons/fi";
+import { FiClock } from "react-icons/fi";
 import farmerBasic from "../../assets/farmerBasic.png";
 import farmerIntermediary from "../../assets/farmerIntermediary.png";
 import farmerPremium from "../../assets/farmerPremium.png";
@@ -10,38 +9,47 @@ import { useUser } from "../../utils/contexts/UserContext.jsx";
 
 export default function ProfilePage() {
   const [userAvatar, setUserAvatar] = useState();
-  const {fetchUserData} = useUser()
-  
-  const { userData, setUserData} = useUser();
+  const { fetchUserData, updateProfile, setUserData, userData, deleteUser } = useUser();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+
+  const handleSaveChanges = () => {
+    const updatedUserData = {
+      ...userData,
+      name,
+      email,
+      address,
+    };
+    setUserData(updatedUserData);
+    updateProfile(updatedUserData);
+  };
 
   const handleUserAvatar = () => {
-    if (userData.role === "user-basic") {
-      setUserAvatar(farmerBasic);
-    }
-    if (userData.role === "user-intermediary") {
-      setUserAvatar(farmerIntermediary);
-    }
-    if (userData.role === "user-premium") {
-      setUserAvatar(farmerPremium);
-    }
+    if (userData.role === "user-basic") setUserAvatar(farmerBasic);
+    if (userData.role === "user-intermediary") setUserAvatar(farmerIntermediary);
+    if (userData.role === "user-premium") setUserAvatar(farmerPremium);
   };
 
   useEffect(() => {
-    handleUserAvatar();
-    fetchUserData()
-    console.log(userData.name)
+    fetchUserData();
   }, []);
+
+  // Atualiza os campos e avatar assim que userData for carregado
+  useEffect(() => {
+    if (userData) {
+      setName(userData.name || "");
+      setEmail(userData.email || "");
+      setAddress(userData.address || "");
+      handleUserAvatar();
+    }
+  }, [userData]);
 
   return (
     <div className="profile-page">
       <div className="relative">
-        <div
-          className="h-20 w-full bg-green-600"
-          style={{
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        ></div>
+        <div className="h-20 w-full bg-green-600"></div>
 
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center md:items-end -mt-16 relative z-10">
@@ -54,9 +62,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="md:ml-8 mt-4 md:mt-0 text-center md:text-left">
-              <h1 className="text-2xl font-bold text-gray-800">
-                {userData.name}
-              </h1>
+              <h1 className="text-2xl font-bold text-gray-800">{name}</h1>
               <p className="text-gray-600">
                 {userData.role === "user-basic"
                   ? "Usuário Básico"
@@ -64,7 +70,6 @@ export default function ProfilePage() {
                   ? "Usuário Intermediário"
                   : "Usuário Premium"}
               </p>
-
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-3">
                 <span className="flex items-center text-sm text-gray-600">
                   <FiClock className="mr-1" /> Membro desde{" "}
@@ -84,7 +89,8 @@ export default function ProfilePage() {
             </label>
             <input
               type="text"
-              defaultValue={userData.name}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -95,28 +101,28 @@ export default function ProfilePage() {
             </label>
             <input
               type="email"
-              defaultValue={userData.email}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
 
           <div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Plano
-              </label>
-              <input
-                type="text"
-                defaultValue={
-                  userData.role === "user-basic"
-                    ? "Básico"
-                    : userData.role === "user-intermediary"
-                    ? "Intermediário"
-                    : "Premium"
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Plano
+            </label>
+            <input
+              type="text"
+              value={
+                userData.role === "user-basic"
+                  ? "Básico"
+                  : userData.role === "user-intermediary"
+                  ? "Intermediário"
+                  : "Premium"
+              }
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
+            />
           </div>
 
           <div>
@@ -125,22 +131,18 @@ export default function ProfilePage() {
             </label>
             <input
               type="text"
-              defaultValue={userData.address}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
         </div>
 
         <div className="flex justify-end space-x-3 p-4 border-t">
-          <Button
-          className="bg-red-500 hover:bg-red-600"
-          >
-            Excluir Conta
-          </Button>
-          <Button
-          >
-            Salvar Alterações
-          </Button>
+          <Button 
+          onClick={() => deleteUser()}
+          className="bg-red-500 hover:bg-red-600">Excluir Conta</Button>
+          <Button onClick={handleSaveChanges}>Salvar Alterações</Button>
         </div>
       </div>
     </div>

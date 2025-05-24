@@ -42,10 +42,6 @@ export const updateUserByUserId = async (userId, data) => {
       data.password = bcrypt.hashSync(data.password, 10);
     }
 
-    if ('role' in data) {
-      throw new Error('Você não pode alterar o campo "role"');
-    }
-
     const updatedUser = await User.findOneAndUpdate({ userId }, data, { new: true });
     return updatedUser;
   } catch (err) {

@@ -97,15 +97,17 @@ export function UserProvider({ children }) {
     // delete api.defaults.headers.common['Authorization']
 
     setUserData(null);
-    navigate("/landing");
+    navigate("/");
   };
 
   const updateProfile = async (userData) => {
     try {
       setLoading(true);
-      const response = await AiFillPicture.put("/user/me", userData);
+      const response = await userAPI.put(
+        "/" + localStorage.getItem("userId"),
+        userData
+      );
       setUserData(response.data);
-      return response.data;
     } catch (error) {
       setError(error.response?.data?.message || "Error ao atualizar o perfil");
       throw error;
@@ -121,6 +123,19 @@ export function UserProvider({ children }) {
     setError(error.response?.data?.message || "Erro de autenticação");
   };
 
+  const deleteUser = async () => {
+    try {
+      setLoading(true);
+      await userAPI.delete("/" + localStorage.getItem("userId"));
+      logout();
+    } catch (error) {
+      setError(error.response?.data?.message || "Erro ao deletar o usuário");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value = {
     userData,
     loading,
@@ -131,6 +146,8 @@ export function UserProvider({ children }) {
     register,
     isAuthenticated: !!userData,
     fetchUserData,
+    setUserData,
+    deleteUser,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

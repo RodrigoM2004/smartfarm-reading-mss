@@ -48,10 +48,11 @@ export default function MapPage() {
           />
           {sensorList.map((sensor) => (
             <Marker
-              key={sensor._id}
+              key={sensor.sensorId}
               position={[sensor.latitude, sensor.longitude]}
               riseOnHover={true}
             >
+                {console.log(sensor)}
               <Popup>{sensor.name || sensor._id}</Popup>
             </Marker>
           ))}
