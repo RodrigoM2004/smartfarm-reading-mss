@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserMock } from "../Mocks/UserMock"
 import axios from "axios"
+import { userAPI } from "../constants/axios-instance"
 
 const UserContext = createContext()
 
@@ -39,8 +40,7 @@ export function UserProvider({ children }) {
         try{
             setLoading(true)
 
-            // const response = await api
-            // ↓ mudar UserMock para response.data
+            const response = userAPI.get("/" + localStorage.getItem("userId"))
             setUserData(UserMock)
              setError(null)
         } catch (error) {
@@ -54,9 +54,10 @@ export function UserProvider({ children }) {
         try{
             setLoading(true)
 
-            const response = await axios.post('http://localhost:3000/users/login', {email: credentials.email, password: credentials.password}) 
+            const response = await userAPI.post('/login', {email: credentials.email, password: credentials.password}) 
             
             localStorage.setItem('token', response.data.token)
+            localStorage.setItem('userId', response.data.user.userId)
             //api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
 
             await fetchUserData()
@@ -74,7 +75,7 @@ export function UserProvider({ children }) {
     const register = async (userData) => {
         try {
             setLoading(true)
-            const response = await axios.post('http://localhost:3000/users/register', userData)
+            const response = await userAPI.post('/register', userData)
             setUserData(response.data)
             return response.data
         } catch (error) {
