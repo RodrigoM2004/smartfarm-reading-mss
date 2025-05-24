@@ -6,7 +6,8 @@ const sensorSchema = new mongoose.Schema({
   latitude: { type: Number, required: true },
   longitude: { type: Number, required: true },
   userId: { type: String, ref: 'User', required: true }, 
-  createdAt: { type: Number, required: true }
+  createdAt: { type: Number, required: true },
+  readingList: { type: [String], default: []}
 });
 
 export default mongoose.model('Sensor', sensorSchema);
