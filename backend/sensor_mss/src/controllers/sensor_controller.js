@@ -60,11 +60,12 @@ export const deleteSensor = async (req, res) => {
     if (!deletedSensor) {
       return res.status(404).json({ message: 'Sensor não encontrado' });
     }
+
     axios.post("http://localhost:3003/event", {
       type: "SensorDelete",
       data: {
         user_id: req.user.id,
-        sensor_id: newSensor.sensorId
+        sensor_id: deletedSensor.sensorId
       }
     })
     res.status(204).send();
