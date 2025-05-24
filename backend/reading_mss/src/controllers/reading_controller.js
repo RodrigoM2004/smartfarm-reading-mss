@@ -24,6 +24,13 @@ export const getReadingById = async (req, res) => {
 export const createReading = async (req, res) => {
   try {
     const newReading = await readingService.createReading(req.body);
+    axios.post("http://localhost:3003/event", {
+          type: "ReadingCreate",
+          data: {
+            reading_id: req.user_id,
+            sensor_id: newSensor.sensorId
+          }
+      })
     res.status(201).json(newReading);
   } catch (err) {
     res.status(400).json({ message: `Erro criando leitura: ${err.message}` });
