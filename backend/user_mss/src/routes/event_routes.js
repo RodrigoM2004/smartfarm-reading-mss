@@ -5,7 +5,7 @@ const router = express.Router();
 
 const functions = {
   SensorCreate: async (data) => {
-    await addSensor(data.userId, data.sensorId)
+    await addSensor(data.user_id, data.sensor_id)
   },
 }
 

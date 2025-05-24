@@ -10,6 +10,18 @@ export const createSensor = async (data) => {
   return newSensor.toObject();
 };
 
+export const addReading = async (sensorId, readingId) => {
+  try {
+    return await Sensor.findOneAndUpdate(
+      { sensorId },
+      { $addToSet: { readingList: readingId } },
+      { new: true }
+    );
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
 export const updateSensor = async (id, data) => {
   const updatedSensor = await Sensor.findByIdAndUpdate(id, data, { new: true });
   return updatedSensor;
