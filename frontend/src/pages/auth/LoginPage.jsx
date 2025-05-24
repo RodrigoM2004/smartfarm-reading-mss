@@ -4,6 +4,7 @@ import { useState } from "react";
 import LoginImage from "/src/assets/login_image.png";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../utils/contexts/UserContext";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,12 +15,19 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
   function SendLogin(event) {
     event.preventDefault();
-    login({ email, password });
+    login({ email, password })
+      .then(() => {
+        setErrorMessage("");
+      })
+      .catch((err) => {
+        setErrorMessage(err.response.data.message);
+      });
   }
 
   function SendRegister(event) {
@@ -32,9 +40,10 @@ export default function LoginPage() {
     })
       .then(() => {
         setIsLogin(true);
+        setErrorMessage("");
       })
       .catch((err) => {
-        console.error("Erro ao cadastrar:", err);
+        setErrorMessage(err.response.data.message);
       });
   }
 
@@ -54,7 +63,12 @@ export default function LoginPage() {
           </div>
           <div className="h-[60%] w-full  flex flex-col items-start justify-center">
             <div className="flex felx-row items-center justify-start w-full mb-8 mt-16">
-              <div onClick={() => setIsLogin(true)}>
+              <div
+                onClick={() => {
+                  setIsLogin(true);
+                  setErrorMessage("");
+                }}
+              >
                 <h1
                   className={`text-2xl font-bold ${
                     isLogin
@@ -66,7 +80,12 @@ export default function LoginPage() {
                 </h1>
               </div>
               <div className="w-0.5 h-7 bg-black mx-4"></div>
-              <div onClick={() => setIsLogin(false)}>
+              <div
+                onClick={() => {
+                  setIsLogin(false);
+                  setErrorMessage("");
+                }}
+              >
                 <h1
                   className={`text-2xl font-bold ${
                     isLogin
@@ -78,6 +97,7 @@ export default function LoginPage() {
                 </h1>
               </div>
             </div>
+
             <form className="flex flex-col gap-4 mt-4 w-full h-[250px]">
               <StyledInput
                 type={"email"}
@@ -109,7 +129,7 @@ export default function LoginPage() {
                     />{" "}
                   </div>{" "}
                   <div className=""></div>
-                  <div className="w-full h-10 mt-8 flex flex-row gap-2 items-center justify-baseline">
+                  <div className="w-full h-10 mt-8 mb-5 flex flex-row gap-2 items-center justify-baseline">
                     <div className="w-5 h-5 border-2 border-blue-950"></div>
                     <h1>
                       Aceito os termos e condições para a utilização dos meus
@@ -119,6 +139,7 @@ export default function LoginPage() {
                 </div>
               )}
             </form>
+            <ErrorBox message={errorMessage} />
           </div>
           <div className="h-[15%] w-full flex flex-row items-center justify-between pt-12">
             <button
