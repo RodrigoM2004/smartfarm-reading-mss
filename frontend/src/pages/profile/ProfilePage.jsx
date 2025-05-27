@@ -17,7 +17,6 @@ export default function ProfilePage() {
 
   const handleSaveChanges = () => {
     const updatedUserData = {
-      ...userData,
       name,
       email,
       address,
