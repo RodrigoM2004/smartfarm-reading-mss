@@ -29,11 +29,28 @@ export const addReading = async (sensorId, readingId) => {
   }
 };
 
-export const updateSensor = async (id, data) => {
-  const updatedSensor = await Sensor.findByIdAndUpdate(id, data, { new: true });
+export const updateSensor = async (sensorId, data, userId) => {
+  const updatedSensor = await Sensor.findOneAndUpdate({ sensorId }, data, {
+    new: true,
+  });
+  if (!updatedSensor) {
+    throw new Error("Sensor não encontrado");
+  }
+  await axios.put(
+    `http://localhost:3003/view/update_sensor/${userId}`,
+    updatedSensor
+  );
   return updatedSensor;
 };
 
-export const deleteSensor = async (sensorId) => {
-  return await Sensor.findOneAndDelete({ sensorId: sensorId });
+export const deleteSensor = async (sensorId, userId) => {
+  const deletedSensor = await Sensor.findOneAndDelete({ sensorId: sensorId });
+  if (!deletedSensor) {
+    throw new Error("Sensor não encontrado");
+  }
+  await axios.delete(
+    `http://localhost:3003/view/delete_sensor/${userId}/${sensorId}`
+  );
+
+  return deletedSensor;
 };
