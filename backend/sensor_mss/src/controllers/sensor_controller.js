@@ -29,7 +29,7 @@ export const createSensor = async (req, res) => {
       userId: req.user.id,
       createdAt: Date.now()
     });
-    axios.post("http://localhost:3003/event", {
+    axios.post("http://localhost:3004/event", {
       type: "SensorCreate",
       data: {
         user_id: req.user.id,
@@ -61,7 +61,7 @@ export const deleteSensor = async (req, res) => {
       return res.status(404).json({ message: 'Sensor não encontrado' });
     }
 
-    axios.post("http://localhost:3003/event", {
+    axios.post("http://localhost:3004/event", {
       type: "SensorDelete",
       data: {
         user_id: req.user.id,

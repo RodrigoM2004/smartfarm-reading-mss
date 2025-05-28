@@ -1,6 +1,7 @@
 import User from '../models/user_model.js';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 export const getAllUsers = async () => await User.find();
 
@@ -27,6 +28,7 @@ export const createUser = async (data) => {
 
     const newUser = new User(userData);
     await newUser.save();
+    await axios.post("http://localhost:3003/view/create_user", userData)
 
     const userObj = newUser.toObject();
     delete userObj.password;
@@ -43,6 +45,9 @@ export const updateUserByUserId = async (userId, data) => {
     }
 
     const updatedUser = await User.findOneAndUpdate({ userId }, data, { new: true });
+
+     await axios.put(`http://localhost:3003/view/update_user/${userId}`, updatedUser)
+
     return updatedUser;
   } catch (err) {
     throw new Error(err.message);
@@ -76,8 +81,15 @@ export const removeSensor = async (userId, sensorId) => {
 }
 
 export const deleteUserByUserId = async (userId) => {
-  return await User.findOneAndDelete({ userId });
+  try {
+    const deleted = await User.findOneAndDelete({ userId });
+    await axios.delete(`http://localhost:3003/view/delete_user/${userId}`);
+    return deleted;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 };
+
 
 export const login = async (email, password) => {
   const user = await User.findOne({ email });
