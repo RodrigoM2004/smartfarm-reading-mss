@@ -28,3 +28,13 @@ export const deleteUser = async (req, res) => {
     res.status(400).json({ message: `Erro ao deletar usuário: ${err.message}` });
   }
 };
+
+export const createSensor = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const newSensor = await viewService.createSensor(userId, req.body);
+    res.status(201).json(newSensor);
+  } catch (err) {
+    res.status(400).json({ message: `Erro ao criar sensor: ${err.message}` });
+  }
+};

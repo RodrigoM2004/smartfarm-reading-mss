@@ -1,14 +1,19 @@
-import Sensor from '../models/sensor_model.js';
+import Sensor from "../models/sensor_model.js";
+import axios from "axios";
 
 export const getAllSensors = async () => await Sensor.find();
 
 export const getSensorById = async (sensorId) => {
   return await Sensor.findOne({ sensorId });
-}
+};
 
-export const createSensor = async (data) => {
+export const createSensor = async (data, userId) => {
   const newSensor = new Sensor(data);
   await newSensor.save();
+  await axios.post(
+    `http://localhost:3003/view/create_sensor/${userId}`,
+    newSensor
+  );
   return newSensor.toObject();
 };
 
@@ -30,6 +35,5 @@ export const updateSensor = async (id, data) => {
 };
 
 export const deleteSensor = async (sensorId) => {
-  return await Sensor.findOneAndDelete({ sensorId: sensorId })
-}
-
+  return await Sensor.findOneAndDelete({ sensorId: sensorId });
+};

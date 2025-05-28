@@ -28,7 +28,7 @@ export const createSensor = async (req, res) => {
       ...req.body,
       userId: req.user.id,
       createdAt: Date.now()
-    });
+    }, req.user.id);
     axios.post("http://localhost:3004/event", {
       type: "SensorCreate",
       data: {

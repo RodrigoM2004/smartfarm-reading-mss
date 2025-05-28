@@ -2,7 +2,8 @@ import express from 'express';
 import {
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  createSensor
 } from '../controllers/view_controller.js';
 
 const router = express.Router();
@@ -10,5 +11,6 @@ const router = express.Router();
 router.post('/create_user', createUser);
 router.put('/update_user/:userId', updateUser);
 router.delete('/delete_user/:userId', deleteUser);
+router.post('/create_sensor/:userId', createSensor);
 
 export default router;
