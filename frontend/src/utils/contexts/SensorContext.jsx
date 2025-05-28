@@ -9,23 +9,30 @@ export function SensorProvider({ children }) {
   const [error, setError] = useState(null);
   const [sensorList, setSensorList] = useState([]);
 
-
-    const { userData } = useUser();
+  const { userData } = useUser();
 
   const fetchSensorData = async () => {
     try {
-      setLoading(true)
-    console.log(userData.sensorList);
-      for( let i = 0; i < userData.sensorList.length; i++) {
-        const sensor = userData.sensorList[i];
-        const response = await sensorAPI.get(`/${sensor}`);
-        setSensorList((prev) => [...prev, response.data]);
+      setLoading(true);
+
+      const responses = await Promise.all(
+        userData.sensorList.map((sensor) => sensorAPI.get(`/${sensor}`))
+      );
+
+      const uniqueSensors = [];
+      const seen = new Set();
+
+      for (const res of responses) {
+        if (!seen.has(res.data._id)) {
+          seen.add(res.data._id);
+          uniqueSensors.push(res.data);
+        }
       }
-      console.log(sensorList);
+
+      setSensorList(uniqueSensors);
       setError(null);
     } catch (error) {
       console.error(error);
-
     } finally {
       setLoading(false);
     }
@@ -39,9 +46,7 @@ export function SensorProvider({ children }) {
   };
 
   return (
-    <SensorContext.Provider value={value}>
-      {children}
-    </SensorContext.Provider>
+    <SensorContext.Provider value={value}>{children}</SensorContext.Provider>
   );
 }
 
