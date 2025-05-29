@@ -22,17 +22,32 @@ export function SensorProvider({ children }) {
       const uniqueSensors = [];
       const seen = new Set();
 
+
       for (const res of responses) {
         if (!seen.has(res.data._id)) {
           seen.add(res.data._id);
           uniqueSensors.push(res.data);
         }
       }
-
+    
       setSensorList(uniqueSensors);
       setError(null);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createSensor = async (sensorData) => {
+    try {
+      setLoading(true);
+      const response = await sensorAPI.post("/", sensorData);
+      setSensorList((prev) => [...prev, response.data]);
+      setError(null);
+    } catch (error) {
+      console.error(error);
+      setError("Failed to create sensor");
     } finally {
       setLoading(false);
     }
@@ -43,6 +58,7 @@ export function SensorProvider({ children }) {
     loading,
     error,
     fetchSensorData,
+    createSensor,
   };
 
   return (

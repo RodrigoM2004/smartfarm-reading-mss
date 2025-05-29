@@ -8,7 +8,7 @@ import { useSensor } from "../../utils/contexts/SensorContext"
 export default function DashboardPage() {
 
     const {fetchUserData, userData} = useUser()
-    const {fetchSensorData} = useSensor()
+    const {fetchSensorData, sensorList} = useSensor()
 
     useEffect(() => {
         fetchUserData()
