@@ -113,7 +113,6 @@ export default function MapPage() {
           <span className="text-white ml-2 bg-blue-950 px-2 py-1 rounded-sm">
             {(() => {
               const lastReading = userData?.sensorList[0]?.readingList[userData?.sensorList[0]?.readingList.length - 1];
-              console.log(lastReading);
               return timestampToDate(
                 lastReading?.createdAt 
               );
@@ -131,8 +130,8 @@ export default function MapPage() {
 
           <div className="overflow-y-auto max-h-[490px]">
             {userData.sensorList.map((sensor) => {
-              const readings = userData.sensorList.readingList || [];
-              const latestReading = readings[0];
+              const readings = userData.sensorList?.readingList || [];
+              const latestReading = userData?.sensorList[0]?.readingList[userData?.sensorList[0]?.readingList.length - 1];
 
               return (
                 <div
