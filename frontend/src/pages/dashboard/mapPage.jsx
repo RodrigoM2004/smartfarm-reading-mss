@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa6";
 import StyledInput from "../auth/components/styledInput.jsx";
 import LoadingScreen from "../../components/LoadingScreen.jsx";
+import { timestampToDate } from "../../utils/formatters/date-formatters.js";
 
 export default function MapPage() {
   const { setSelectedIndex } = useSidebar();
@@ -112,12 +113,10 @@ export default function MapPage() {
           <span className="text-white ml-2 bg-blue-950 px-2 py-1 rounded-sm">
             {(() => {
               const lastReading = userData?.sensorList[0]?.readingList[userData?.sensorList[0]?.readingList.length - 1];
-              return lastReading
-                ? new Date(lastReading.timestamp).toLocaleDateString(
-                    "pt-BR",
-                    options
-                  )
-                : "Sem leitura";
+              console.log(lastReading);
+              return timestampToDate(
+                lastReading?.createdAt 
+              );
             })()}
           </span>
         </div>

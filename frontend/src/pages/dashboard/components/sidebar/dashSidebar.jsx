@@ -7,7 +7,7 @@ import { useUser } from "../../../../utils/contexts/UserContext";
 export default function DashSidebar() {
   const { selectedIndex, setSelectedIndex } = useSidebar();
   const navigate = useNavigate();
-  const {userData} = useUser()
+  const {userData, loading} = useUser()
 
   const menuItems = [
     { title: "MAPA", icon: <FaMap size={24}/>, path: "map" },
@@ -21,6 +21,7 @@ export default function DashSidebar() {
     setSelectedIndex(index);
     navigate(`/dashboard/${path}`);
   };
+
 
   return (
     <div className="w-1/7 h-full bg-white absolute left-0">
