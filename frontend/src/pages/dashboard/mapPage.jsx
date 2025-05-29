@@ -142,7 +142,7 @@ export default function MapPage() {
                     {sensor.name || "Sensor #" + sensor._id?.slice(-4)}
                   </div>
                   <div className="w-1/6 flex flex-row items-center justify-end gap-1">
-                    {latestReading?.ph ?? "-"}
+                    {latestReading?.pH ?? "-"}
                     <FaFlask
                       size={18}
                       className="text-blue-950 group-hover:rotate-[360] transition-all duration-200 ease-in"

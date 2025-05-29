@@ -3,7 +3,6 @@ import LandingPage from "./pages/landing/LandingPage";
 import LoginPage from "./pages/auth/LoginPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProfilePage from "./pages/profile/ProfilePage";
-import ForumPage from "./pages/forum/ForumPage";
 import MapPage from "./pages/dashboard/mapPage";
 import TemperaturePage from "./pages/dashboard/tempPage";
 import { SidebarProvider } from "./utils/contexts/SidebarContext";
@@ -37,7 +36,6 @@ function App() {
                 <Route path="bat" element={<BateryPage />} />
               </Route>
               <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/forum" element={<ForumPage />} />
             </Routes>
         </SensorProvider>
       </UserProvider>
