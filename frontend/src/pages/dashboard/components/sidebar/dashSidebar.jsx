@@ -29,7 +29,7 @@ export default function DashSidebar() {
             <div onClick={()=> navigate("/profile")} className="bg-blue-950 w-30 h-30 rounded-full hover:bg-blue-900 transition-colors duration-200 ease-in-out cursor-pointer" > </div>
             <div className="">
               <div className=" text-black text-md font-bold flex items-center justify-center">
-                  {userData.name}
+                  {userData?.name}
               </div>
              </div>
         </div>
