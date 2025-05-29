@@ -4,7 +4,6 @@ import { useSidebar } from "../../utils/contexts/SidebarContext";
 import { useEffect, useState } from "react";
 import { useUser } from "../../utils/contexts/UserContext";
 import { useSensor } from "../../utils/contexts/SensorContext";
-import { useReadingList } from "../../utils/contexts/ReadingListContext";
 import {
   FaTemperatureHalf,
   FaSun,
@@ -12,12 +11,12 @@ import {
   FaFlask,
 } from "react-icons/fa6";
 import StyledInput from "../auth/components/styledInput.jsx";
+import LoadingScreen from "../../components/LoadingScreen.jsx";
 
 export default function MapPage() {
   const { setSelectedIndex } = useSidebar();
-  const { userData } = useUser();
-  const { fetchSensorData, sensorList, createSensor } = useSensor();
-  const { readingList } = useReadingList();
+  const { userData, fetchUserData, loading } = useUser();
+  const { createSensor } = useSensor();
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [sensorName, setSensorName] = useState("");
@@ -26,11 +25,15 @@ export default function MapPage() {
 
   useEffect(() => {
     setSelectedIndex(0);
-    fetchSensorData();
-  }, [setSelectedIndex]);
+    fetchUserData();
+  }, []);
 
-  const position = sensorList[0]
-    ? [sensorList[0].latitude, sensorList[0].longitude]
+  if (loading || userData === null) {
+  return <LoadingScreen />;
+}
+
+  const position = userData.sensorList[0]
+    ? [userData.sensorList[0].latitude, userData.sensorList[0].longitude]
     : [-23.6785, -46.6639];
 
   const options = {
@@ -44,7 +47,7 @@ export default function MapPage() {
   };
 
   function CreateSensor() {
-    let doesSensorExist = sensorList.some(
+    let doesSensorExist = userData.sensorList.some(
       (sensor) => sensor.name === sensorName
     );
 
@@ -82,7 +85,7 @@ export default function MapPage() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {sensorList.map((sensor) => (
+          {userData?.sensorList?.map((sensor) => (
             <Marker
               key={sensor.sensorId || sensor._id}
               position={[sensor.latitude, sensor.longitude]}
@@ -100,7 +103,7 @@ export default function MapPage() {
             Sensores ativos
           </div>
           <div className="bg-blue-950 text-white p-2 rounded-md flex flex-row items-center justify-center w-1/6 text-4xl">
-            {sensorList.length}
+            {userData?.sensorList?.length}
           </div>
         </div>
 
@@ -108,8 +111,7 @@ export default function MapPage() {
           Última leitura:
           <span className="text-white ml-2 bg-blue-950 px-2 py-1 rounded-sm">
             {(() => {
-              const firstSensorId = sensorList[0]?._id;
-              const lastReading = readingList[firstSensorId]?.[0];
+              const lastReading = userData?.sensorList[0]?.readingList[userData?.sensorList[0]?.readingList.length - 1];
               return lastReading
                 ? new Date(lastReading.timestamp).toLocaleDateString(
                     "pt-BR",
@@ -129,8 +131,8 @@ export default function MapPage() {
           </div>
 
           <div className="overflow-y-auto max-h-[490px]">
-            {sensorList.map((sensor) => {
-              const readings = readingList[sensor._id] || [];
+            {userData.sensorList.map((sensor) => {
+              const readings = userData.sensorList.readingList || [];
               const latestReading = readings[0];
 
               return (

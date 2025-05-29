@@ -18,6 +18,8 @@ export function UserProvider({ children }) {
   const [dashboardFilterFinalData, setDashboardFilterFinalData] =
     useState(null);
 
+    
+
   useEffect(() => {
     if (userData === null) {
       fetchUserData();
@@ -61,12 +63,7 @@ export function UserProvider({ children }) {
       //api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
 
       await fetchUserData();
-      setDashboardFilterInitialData(userData?.sensors[0]?.readings[0]?.data);
-      setDashboardFilterFinalData(
-        userData?.sensors[0]?.readings[
-          userData?.sensors[0]?.readings.length - 1
-        ]?.data
-      );
+
       navigate("/dashboard/map");
     } catch (error) {
       setError(error.response?.data?.message || "Erro ao fazer login");
