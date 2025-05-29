@@ -107,7 +107,6 @@ export const deleteUser = async (userId) => {
     }
     return deleted;
   } catch (err) {
-    console.log(err);
     throw new Error(err.message);
   }
 };
@@ -133,7 +132,6 @@ export const createSensor = async (userId, sensorData) => {
   };
   try {
     const user = await View.findOne({ userId });
-    console.log(sensorData);
     const newSensor = {
       name: sensorData.name,
       latitude: sensorData.latitude,
@@ -197,6 +195,97 @@ export const deleteSensor = async (userId, sensorId) => {
     return user;
   } catch (err) {
     console.error("Error deleting sensor:", err);
+    throw new Error(err.message);
+  }
+};
+
+export const createReading = async (userId, sensorId, readingData) => {
+  try {
+    const user = await View.findOne({ userId }).select("sensorList");
+    console.log(sensorId);
+    const sensor = user.sensorList.find((s) => s.sensorId === sensorId);
+    const newReading = {
+      battery: readingData.battery,
+      temperature: readingData.temperature,
+      humidity: readingData.humidity,
+      pH: readingData.pH,
+      luminosity: readingData.luminosity,
+      createdAt: readingData.createdAt,
+      readingId: readingData.readingId,
+    };
+
+    console.log(sensor);
+    sensor.readingList.push(newReading);
+    await user.save();
+    return newReading;
+  } catch (err) {
+    console.error("Error creating reading:", err);
+    throw new Error(err.message);
+  }
+};
+
+export const updateReading = async (
+  userId,
+  sensorId,
+  readingId,
+  readingData
+) => {
+  try {
+    const user = await View.findOne({ userId }).select("sensorList");
+    const sensor = user.sensorList.find((s) => s.sensorId === sensorId);
+    const reading = sensor.readingList.find((r) => r.readingId === readingId);
+    reading.battery = readingData.battery || reading.battery;
+    reading.temperature = readingData.temperature || reading.temperature;
+    reading.humidity = readingData.humidity || reading.humidity;
+
+    reading.pH = readingData.pH || reading.pH;
+    reading.luminosity = readingData.luminosity || reading.luminosity;
+    reading.createdAt = readingData.createdAt || reading.createdAt;
+
+    await user.save();
+    return reading;
+  } catch (err) {
+    console.error("Error updating reading:", err);
+    throw new Error(err.message);
+  }
+};
+
+export const deleteReading = async (userId, sensorId, readingId) => {
+  try {
+    const user = await View.findOne({ userId }).select("sensorList");
+    const sensor = user.sensorList.find((s) => s.sensorId === sensorId);
+    sensor.readingList = sensor.readingList.filter(
+      (r) => r.readingId !== readingId
+    );
+    await user.save();
+    return sensor;
+  } catch (err) {
+    console.error("Error deleting reading:", err);
+    throw new Error(err.message);
+  }
+};
+
+export const getUserView = async (userId) => {
+  try {
+    const user = await View.findOne({ userId });
+
+    if (!user) {
+      throw new Error("Usuário não encontrado");
+    }
+
+    user.sensorList.forEach((sensor) => {
+      if (sensor.readingList.length > 0) {
+        sensor.readingList.shift();
+      }
+    });
+
+    if (user.sensorList.length > 0) {
+      user.sensorList.shift();
+    }
+
+    return user;
+  } catch (err) {
+    console.error("Error getting user view:", err);
     throw new Error(err.message);
   }
 };

@@ -64,3 +64,59 @@ export const deleteSensor = async (req, res) => {
     res.status(400).json({ message: `Erro ao deletar sensor: ${err.message}` });
   }
 };
+
+export const createReading = async (req, res) => {
+  try {
+    const { userId, sensorId } = req.params;
+    const newReading = await viewService.createReading(
+      userId,
+      sensorId,
+      req.body
+    );
+    res.status(201).json(newReading);
+  } catch (err) {
+    res.status(400).json({ message: `Erro ao criar leitura: ${err.message}` });
+  }
+};
+
+export const updateReading = async (req, res) => {
+  try {
+    const { userId, sensorId, readingId } = req.params;
+    console.log(req.params);
+    const updatedReading = await viewService.updateReading(
+      userId,
+      sensorId,
+      readingId,
+      req.body
+    );
+    res.status(200).json(updatedReading);
+  } catch (err) {
+    res
+      .status(400)
+      .json({ message: `Erro ao atualizar leitura: ${err.message}` });
+  }
+};
+
+export const deleteReading = async (req, res) => {
+  try {
+    const { userId, sensorId, readingId } = req.params;
+    await viewService.deleteReading(userId, sensorId, readingId);
+    res.status(204).send();
+  } catch (err) {
+    res
+      .status(400)
+      .json({ message: `Erro ao deletar leitura: ${err.message}` });
+  }
+};
+
+export const getUserView = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userView = await viewService.getUserView(userId);
+    res.status(200).json(userView);
+  } catch (err) {
+    res
+      .status(404)
+      .json({ message: `Erro ao buscar view do usuário: ${err.message}` });
+  }
+};
