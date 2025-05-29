@@ -12,14 +12,12 @@ import PhPage from "./pages/dashboard/phPage";
 import BateryPage from "./pages/dashboard/batPage";
 import { UserProvider } from "./utils/contexts/UserContext";
 import { SensorProvider } from "./utils/contexts/SensorContext";
-import { ReadingListProvider } from "./utils/contexts/ReadingListContext";
 
 function App() {
   return (
     <Router>
       <UserProvider>
         <SensorProvider>
-          <ReadingListProvider>
             {" "}
             <Routes>
               <Route path="/" element={<LandingPage />} />
@@ -41,7 +39,6 @@ function App() {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/forum" element={<ForumPage />} />
             </Routes>
-          </ReadingListProvider>
         </SensorProvider>
       </UserProvider>
     </Router>

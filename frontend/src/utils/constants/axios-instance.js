@@ -20,3 +20,5 @@ export const sensorAPI = createAxiosInstance('http://localhost:3001/sensors');
 
 export const readingAPI = createAxiosInstance('http://localhost:3002/readings');
 
+export const viewAPI = createAxiosInstance('http://localhost:3003/view');
+

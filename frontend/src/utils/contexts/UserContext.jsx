@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { UserMock } from "../Mocks/UserMock";
 import axios from "axios";
 import { userAPI } from "../constants/axios-instance";
+import { viewAPI } from "../constants/axios-instance";
 
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
-  const [userData, setUserData] = useState(UserMock);
-  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -20,8 +21,6 @@ export function UserProvider({ children }) {
   useEffect(() => {
     if (userData === null) {
       fetchUserData();
-    } else {
-      setLoading(false);
     }
 
     // ## Caso queira utilizar token em conjunto com o back
@@ -37,7 +36,7 @@ export function UserProvider({ children }) {
     try {
       setLoading(true);
 
-      const response = await userAPI.get("/" + localStorage.getItem("userId"));
+      const response = await viewAPI.get("/get_user_view/" + localStorage.getItem("userId"));
       setUserData(response.data);
 
       setError(null);
