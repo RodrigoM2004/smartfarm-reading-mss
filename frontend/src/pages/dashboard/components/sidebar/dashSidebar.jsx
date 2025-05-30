@@ -7,7 +7,7 @@ import { useUser } from "../../../../utils/contexts/UserContext";
 export default function DashSidebar() {
   const { selectedIndex, setSelectedIndex } = useSidebar();
   const navigate = useNavigate();
-  const {userData, loading} = useUser()
+  const {userData} = useUser()
 
   const menuItems = [
     { title: "MAPA", icon: <FaMap size={24}/>, path: "map" },

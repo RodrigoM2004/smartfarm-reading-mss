@@ -60,11 +60,22 @@ export function UserProvider({ children }) {
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.user.userId);
-      //api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
+
+      
 
       await fetchUserData();
 
+      
+
       navigate("/dashboard/map");
+
+      setDashboardFilterInitialData(userData?.sensorList[0]?.readingList[0]);
+      setDashboardFilterFinalData(
+        userData?.sensorList[0]?.readingList[
+          userData?.sensorList[0]?.readingsList.length - 1
+        ]
+      );
+      
     } catch (error) {
       setError(error.response?.data?.message || "Erro ao fazer login");
       throw error;
@@ -144,6 +155,8 @@ export function UserProvider({ children }) {
     fetchUserData,
     setUserData,
     deleteUser,
+    dashboardFilterInitialData,
+    setDashboardFilterInitialData,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

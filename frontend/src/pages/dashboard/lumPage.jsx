@@ -4,14 +4,21 @@ import { useUser } from '../../utils/contexts/UserContext';
 import CustomLineChart from './components/linechart/linechart';
 import CustomList from './components/list/customList';
 import AverageInfoCard from '../../components/infoCards/averageInfoCard';
+import LoadingScreen from '../../components/LoadingScreen';
 
 export default function LumPage() {
   const { setSelectedIndex } = useSidebar();
-  const { userData, dashboardFilterInitialData, dashboardFilterFinalData } = useUser();
+  const { userData, fetchUserData, dashboardFilterInitialData, dashboardFilterFinalData, loading } = useUser();
 
   useEffect(() => {
+    fetchUserData();
     setSelectedIndex(1);
-  }, [setSelectedIndex]);
+  }, []);
+
+  
+  if (loading || userData === null) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="w-full h-full flex p-8 text-black flex-col">
