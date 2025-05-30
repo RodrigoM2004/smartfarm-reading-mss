@@ -30,8 +30,8 @@ export default function MapPage() {
   }, []);
 
   if (loading || userData === null) {
-  return <LoadingScreen />;
-}
+    return <LoadingScreen />;
+  }
 
   const position = userData.sensorList[0]
     ? [userData.sensorList[0].latitude, userData.sensorList[0].longitude]
@@ -71,6 +71,8 @@ export default function MapPage() {
     setLatitude("");
     setLongitude("");
     setIsPopupOpen(false);
+
+    window.location.reload();
   }
 
   return (
@@ -112,10 +114,11 @@ export default function MapPage() {
           Última leitura:
           <span className="text-white ml-2 bg-blue-950 px-2 py-1 rounded-sm">
             {(() => {
-              const lastReading = userData?.sensorList[0]?.readingList[userData?.sensorList[0]?.readingList.length - 1];
-              return timestampToDate(
-                lastReading?.createdAt 
-              );
+              const lastReading =
+                userData?.sensorList[0]?.readingList[
+                  userData?.sensorList[0]?.readingList.length - 1
+                ];
+              return timestampToDate(lastReading?.createdAt);
             })()}
           </span>
         </div>
@@ -131,7 +134,10 @@ export default function MapPage() {
           <div className="overflow-y-auto max-h-[490px]">
             {userData.sensorList.map((sensor) => {
               const readings = userData.sensorList?.readingList || [];
-              const latestReading = userData?.sensorList[0]?.readingList[userData?.sensorList[0]?.readingList.length - 1];
+              const latestReading =
+                userData?.sensorList[0]?.readingList[
+                  userData?.sensorList[0]?.readingList.length - 1
+                ];
 
               return (
                 <div
