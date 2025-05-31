@@ -5,7 +5,6 @@ import { useUser } from "../../utils/contexts/UserContext";
 export default function AverageInfoCard({ info }) {
   const { userData } = useUser();
 
-  // ⬇️ Atualizado para usar readings no lugar de sensors
   const average = getAllReadingsAverage(userData.sensorList, info);
 
   return (
@@ -22,7 +21,10 @@ export default function AverageInfoCard({ info }) {
           : ""}
       </div>
 
-      <PieWithNeedle average={average} info={info} />
+      {/* ENVOLVENDO O GAUGE COM UMA DIV CENTRALIZADA */}
+      <div className="flex items-center justify-center w-full h-full">
+        <PieWithNeedle average={average} info={info} />
+      </div>
 
       <div className="mr-3 flex items-end justify-center font-bold text-2xl w-full absolute bottom-5 ml-2">
         {average}
