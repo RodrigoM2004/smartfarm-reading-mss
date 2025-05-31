@@ -23,7 +23,7 @@ export default function LoginPage() {
         setErrorMessage("");
       })
       .catch((err) => {
-        setErrorMessage(err.response);
+        setErrorMessage(err?.response?.data?.message || "Erro ao fazer login");
       });
   }
 
@@ -40,7 +40,7 @@ export default function LoginPage() {
         setErrorMessage("");
       })
       .catch((err) => {
-        setErrorMessage(err.response);
+        setErrorMessage(err?.response?.data?.message || "Erro ao cadastrar");
       });
   }
 
