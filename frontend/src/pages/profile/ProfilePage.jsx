@@ -67,7 +67,7 @@ export default function ProfilePage() {
   }, [userData]);
 
   if (loading || userData === null) {
-    <LoadingScreen />;
+    return <LoadingScreen />;
   }
 
   return (
@@ -184,7 +184,7 @@ export default function ProfilePage() {
         <div className="flex justify-end mt-6">
           <div className="w-full flex justify-between items-center px-4">
             <div
-              className="w-[250px] h-12 flex flex-row items-center cursor-pointer 
+              className="h-12 flex flex-row items-center cursor-pointer 
     hover:opacity-100 hover:scale-101 transition-all duration-200 ease-in-out opacity-80"
               onClick={handleLogout}
             >
