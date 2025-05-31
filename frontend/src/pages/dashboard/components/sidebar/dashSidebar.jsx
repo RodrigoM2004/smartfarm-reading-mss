@@ -1,7 +1,11 @@
-import { FaMap, FaSun, FaFlask, FaThermometerHalf, FaBatteryFull, FaSignOutAlt } from "react-icons/fa";
+import { FaMap, FaSun, FaFlask, FaThermometerHalf, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSidebar } from "../../../../utils/contexts/SidebarContext";
 import { useUser } from "../../../../utils/contexts/UserContext";
+
+import farmerBasic from "../../../../assets/farmerBasic.png";
+import farmerIntermediary from "../../../../assets/farmerIntermediary.png";
+import farmerPremium from "../../../../assets/farmerPremium.png";
 
 export default function DashSidebar() {
   const { selectedIndex, setSelectedIndex } = useSidebar();
@@ -21,8 +25,15 @@ export default function DashSidebar() {
   };
 
   const handleLogout = () => {
-    logout();           // <-- chama a função de logout do contexto
-    navigate("/login"); // <-- redireciona para a página de login
+    logout();
+    navigate("/login");
+  };
+
+  const getUserAvatar = () => {
+    if (userData?.role === "user-basic") return farmerBasic;
+    if (userData?.role === "user-intermediary") return farmerIntermediary;
+    if (userData?.role === "user-premium") return farmerPremium;
+    return farmerBasic;
   };
 
   return (
@@ -32,9 +43,11 @@ export default function DashSidebar() {
         <div className="w-full h-1/3 justify-center p-8 flex flex-col items-center">
           <div
             onClick={() => navigate("/profile")}
-            className="bg-blue-950 w-30 h-30 rounded-full hover:bg-blue-900 transition-colors duration-200 ease-in-out cursor-pointer"
-          ></div>
-          <div className="text-black text-md font-bold flex items-center justify-center mt-2">
+            className="w-40 h-40 rounded-full overflow-hidden bg-blue-100 hover:scale-105 cursor-pointer transition-all duration-200"
+          >
+            <img src={getUserAvatar()} alt="avatar" className="w-full h-full object-cover" />
+          </div>
+          <div className="text-black text-md font-bold flex items-center justify-center mt-2 text-center px-2">
             {userData?.name}
           </div>
         </div>
