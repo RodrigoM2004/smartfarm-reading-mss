@@ -6,6 +6,7 @@ import farmerPremium from "../../assets/farmerPremium.png";
 import { timestampToDate } from "../../utils/formatters/date-formatters";
 import Button from "../../components/ui/Button.jsx";
 import { useUser } from "../../utils/contexts/UserContext.jsx";
+import ConfirmationBox from "../../components/ConfirmationBox.jsx";
 
 export default function ProfilePage() {
   const [userAvatar, setUserAvatar] = useState();
@@ -14,28 +15,29 @@ export default function ProfilePage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const handleSaveChanges = () => {
-    const updatedUserData = {
-      name,
-      email,
-      address,
-    };
+    const updatedUserData = { name, email, address };
     setUserData(updatedUserData);
     updateProfile(updatedUserData);
   };
 
+  const handleDeleteUser = () => {
+    deleteUser();
+    setConfirmOpen(false);
+  };
+
   const handleUserAvatar = () => {
     if (userData.role === "user-basic") setUserAvatar(farmerBasic);
-    if (userData.role === "user-intermediary") setUserAvatar(farmerIntermediary);
-    if (userData.role === "user-premium") setUserAvatar(farmerPremium);
+    else if (userData.role === "user-intermediary") setUserAvatar(farmerIntermediary);
+    else if (userData.role === "user-premium") setUserAvatar(farmerPremium);
   };
 
   useEffect(() => {
     fetchUserData();
   }, []);
 
-  // Atualiza os campos e avatar assim que userData for carregado
   useEffect(() => {
     if (userData) {
       setName(userData.name || "");
@@ -71,8 +73,8 @@ export default function ProfilePage() {
               </p>
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-3">
                 <span className="flex items-center text-sm text-gray-600">
-                  <FiClock className="mr-1" /> Membro desde{" "}
-                  {timestampToDate(userData.dateOfJoining)}
+                  <FiClock className="mr-1" />
+                  Membro desde {timestampToDate(userData.dateOfJoining)}
                 </span>
               </div>
             </div>
@@ -139,11 +141,24 @@ export default function ProfilePage() {
 
         <div className="flex justify-end space-x-3 p-4 border-t">
           <Button 
-          onClick={() => deleteUser()}
-          className="bg-red-500 hover:bg-red-600">Excluir Conta</Button>
-          <Button onClick={handleSaveChanges}>Salvar Alterações</Button>
+            onClick={() => setConfirmOpen(true)} 
+            className="bg-red-500 hover:bg-red-600"
+          >
+            Excluir Conta
+          </Button>
+          <Button onClick={handleSaveChanges}>
+            Salvar Alterações
+          </Button>
         </div>
       </div>
+
+      {confirmOpen && (
+        <ConfirmationBox
+          message="Tem certeza que deseja excluir sua conta?"
+          onConfirm={handleDeleteUser}
+          onCancel={() => setConfirmOpen(false)}
+        />
+      )}
     </div>
   );
 }
