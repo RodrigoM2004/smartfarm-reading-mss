@@ -6,7 +6,7 @@ export default function AverageInfoCard({ info }) {
   const { userData } = useUser();
 
   // ⬇️ Atualizado para usar readings no lugar de sensors
-  const average = getAllReadingsAverage(userData.readings, info);
+  const average = getAllReadingsAverage(userData.sensorList, info);
 
   return (
     <div className="relative w-full h-[210px] flex flex-col items-center justify-center text-black rounded-md">

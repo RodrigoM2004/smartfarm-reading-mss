@@ -1,15 +1,14 @@
-export const processChartData = (sensorList, readingList, info) => {
+export const processChartData = (sensorList, info) => {
   const dateMap = {};
 
-  sensorList.forEach(sensor => {
-    const readings = readingList[sensor._id] || [];
+  sensorList?.forEach(sensor => {
 
-    readings.forEach(reading => {
-      const dateStr = new Date(reading.timestamp).toISOString().split('T')[0];
+    sensor.readingList?.forEach(reading => {
+      const dateStr = new Date(reading.createdAt).toISOString().split('T')[0];
 
       if (!dateMap[dateStr]) {
         dateMap[dateStr] = {
-          date: reading.timestamp,
+          date: reading.createdAt,
           ...Object.fromEntries(sensorList.map(s => [`sensor_${s._id}`, null]))
         };
       }
@@ -18,9 +17,10 @@ export const processChartData = (sensorList, readingList, info) => {
       switch (info) {
         case 'lum':
           dateMap[dateStr][key] = reading.luminosity;
+          console.log('Luminosity:', reading.luminosity);
           break;
         case 'ph':
-          dateMap[dateStr][key] = reading.ph;
+          dateMap[dateStr][key] = reading.pH;
           break;
         case 'temp':
           dateMap[dateStr][key] = reading.temperature;
@@ -34,12 +34,17 @@ export const processChartData = (sensorList, readingList, info) => {
     });
   });
 
+  console.log('Processed Chart Data:', dateMap);
   return Object.values(dateMap).sort((a, b) => new Date(a.date) - new Date(b.date));
 };
 
 
-export const processListData = (sensorList, readingList, info) => {
-  const processedData = processChartData(sensorList, readingList, info);
+export const processListData = (sensorList, info) => {
+
+  console.log("Info:", info);
+  console.log("Sensor List:", sensorList);
+  const processedData = processChartData(sensorList, info);
+  console.log("Processed Data:", processedData);
 
   const allReadings = processedData.flatMap(dailyData => {
     const date = new Date(dailyData.date);
@@ -57,8 +62,9 @@ export const processListData = (sensorList, readingList, info) => {
 };
 
 
-export const getAllReadingsAverage = (sensorList, readingList, info) => {
-  const allReadings = processListData(sensorList, readingList, info);
+export const getAllReadingsAverage = (sensorList, info) => {
+
+  const allReadings = processListData(sensorList, info);
 
   if (!allReadings || allReadings.length === 0) return 0;
 
@@ -68,8 +74,9 @@ export const getAllReadingsAverage = (sensorList, readingList, info) => {
 };
 
 
-export const getDiferenceReadingVsAverage = (sensorList, readingList, info, value) => {
-  const average = getAllReadingsAverage(sensorList, readingList, info);
+export const getDiferenceReadingVsAverage = (sensorList, info, value) => {
+
+  const average = getAllReadingsAverage(sensorList, info);
 
   if (average === 0) return '0.00';
 

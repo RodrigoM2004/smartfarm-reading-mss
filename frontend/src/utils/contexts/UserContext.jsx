@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { UserMock } from "../Mocks/UserMock";
 import axios from "axios";
 import { userAPI } from "../constants/axios-instance";
+import { viewAPI } from "../constants/axios-instance";
 
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
-  const [userData, setUserData] = useState(UserMock);
-  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -17,11 +18,11 @@ export function UserProvider({ children }) {
   const [dashboardFilterFinalData, setDashboardFilterFinalData] =
     useState(null);
 
+    
+
   useEffect(() => {
     if (userData === null) {
       fetchUserData();
-    } else {
-      setLoading(false);
     }
 
     // ## Caso queira utilizar token em conjunto com o back
@@ -37,7 +38,7 @@ export function UserProvider({ children }) {
     try {
       setLoading(true);
 
-      const response = await userAPI.get("/" + localStorage.getItem("userId"));
+      const response = await viewAPI.get("/get_user_view/" + localStorage.getItem("userId"));
       setUserData(response.data);
 
       setError(null);
@@ -59,16 +60,22 @@ export function UserProvider({ children }) {
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.user.userId);
-      //api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
+
+      
 
       await fetchUserData();
-      setDashboardFilterInitialData(userData?.sensors[0]?.readings[0]?.data);
-      setDashboardFilterFinalData(
-        userData?.sensors[0]?.readings[
-          userData?.sensors[0]?.readings.length - 1
-        ]?.data
-      );
+
+      
+
       navigate("/dashboard/map");
+
+      setDashboardFilterInitialData(userData?.sensorList[0]?.readingList[0]);
+      setDashboardFilterFinalData(
+        userData?.sensorList[0]?.readingList[
+          userData?.sensorList[0]?.readingsList.length - 1
+        ]
+      );
+      
     } catch (error) {
       setError(error.response?.data?.message || "Erro ao fazer login");
       throw error;
@@ -148,6 +155,8 @@ export function UserProvider({ children }) {
     fetchUserData,
     setUserData,
     deleteUser,
+    dashboardFilterInitialData,
+    setDashboardFilterInitialData,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

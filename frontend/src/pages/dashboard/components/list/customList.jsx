@@ -30,7 +30,7 @@ export default function CustomList({ info }) {
         </div>
         <div className='w-full h-8/9 rounded-b-md flex overflow-y-scroll flex-col items-center gap-1 px-2 '>
 
-             {processListData(userData.sensors, info).map((item, index) => {
+             {processListData(userData.sensorList, info).map((item, index) => {
                 const localDate = new Date(item.date);
                 localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
                 return (
@@ -53,15 +53,15 @@ export default function CustomList({ info }) {
                     <div
                       className={`p-2 rounded-md w-18 h-8 flex items-center gap-1 justify-center
                         ${
-                          getDiferenceReadingVsAverage(userData.sensors, info, item.value) >= 0
+                          getDiferenceReadingVsAverage(userData.sensorList, info, item.value) >= 0
                             ? "bg-orange-200 text-orange-800"
                             : "bg-blue-200 text-blue-800"
                         }`}
                     >
-                      {getDiferenceReadingVsAverage(userData.sensors, info, item.value) >= 0 ? <div className="flex flex-row"> <FaArrowTrendUp size={12}/> </div> : <div className="flex flex-row"> <FaArrowTrendDown size={12}/> </div>}
+                      {getDiferenceReadingVsAverage(userData.sensorList, info, item.value) >= 0 ? <div className="flex flex-row"> <FaArrowTrendUp size={12}/> </div> : <div className="flex flex-row"> <FaArrowTrendDown size={12}/> </div>}
                       <div>
 
-                        {Math.abs(getDiferenceReadingVsAverage(userData.sensors, info, item.value))}%
+                        {Math.abs(getDiferenceReadingVsAverage(userData.sensorList, info, item.value))}%
                       </div>
                     </div>
                   </div>

@@ -3,7 +3,6 @@ import LandingPage from "./pages/landing/LandingPage";
 import LoginPage from "./pages/auth/LoginPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProfilePage from "./pages/profile/ProfilePage";
-import ForumPage from "./pages/forum/ForumPage";
 import MapPage from "./pages/dashboard/mapPage";
 import TemperaturePage from "./pages/dashboard/tempPage";
 import { SidebarProvider } from "./utils/contexts/SidebarContext";
@@ -12,14 +11,12 @@ import PhPage from "./pages/dashboard/phPage";
 import BateryPage from "./pages/dashboard/batPage";
 import { UserProvider } from "./utils/contexts/UserContext";
 import { SensorProvider } from "./utils/contexts/SensorContext";
-import { ReadingListProvider } from "./utils/contexts/ReadingListContext";
 
 function App() {
   return (
     <Router>
       <UserProvider>
         <SensorProvider>
-          <ReadingListProvider>
             {" "}
             <Routes>
               <Route path="/" element={<LandingPage />} />
@@ -39,9 +36,7 @@ function App() {
                 <Route path="bat" element={<BateryPage />} />
               </Route>
               <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/forum" element={<ForumPage />} />
             </Routes>
-          </ReadingListProvider>
         </SensorProvider>
       </UserProvider>
     </Router>

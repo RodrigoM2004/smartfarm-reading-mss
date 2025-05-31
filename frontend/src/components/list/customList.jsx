@@ -20,11 +20,11 @@ export default function CustomList({ info }) {
       </div>
 
       <div className='w-full h-8/9 rounded-b-md flex overflow-y-scroll flex-col items-center gap-1 px-2'>
-        {processListData(userData.sensors, userData.readings, info).map((item, index) => {
+        {processListData(userData.sensorList, userData.readings, info).map((item, index) => {
           const localDate = new Date(item.date);
           localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
 
-          const diff = getDiferenceReadingVsAverage(userData.sensors, userData.readings, info, item.sensorId, item.value);
+          const diff = getDiferenceReadingVsAverage(userData.sensorList, userData.readings, info, item.sensorId, item.value);
           const isPositive = diff >= 0;
 
           return (

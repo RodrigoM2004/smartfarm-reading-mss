@@ -23,7 +23,7 @@ export default function LoginPage() {
         setErrorMessage("");
       })
       .catch((err) => {
-        setErrorMessage(err.response.data.message);
+        setErrorMessage(err.response);
       });
   }
 
@@ -40,7 +40,7 @@ export default function LoginPage() {
         setErrorMessage("");
       })
       .catch((err) => {
-        setErrorMessage(err.response.data.message);
+        setErrorMessage(err.response);
       });
   }
 

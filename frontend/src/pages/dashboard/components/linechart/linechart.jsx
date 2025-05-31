@@ -21,7 +21,9 @@ import { processChartData } from "../../../../utils/dashHelper";
 export default function CustomLineChart({ info }) {
   const { userData } = useUser();
 
-  const chartData = processChartData(userData.sensors, userData.readings, info);
+  const chartData = processChartData(userData.sensorList, userData.readings, info);
+
+
 
   return (
     <div className="h-full w-full bg-white rounded-md">
@@ -49,7 +51,7 @@ export default function CustomLineChart({ info }) {
           <YAxis tick={{ fontSize: 12 }} domain={["dataMin", "dataMax"]} />
           <Tooltip content={<CustomTooltip info={info} />} />
 
-          {userData.sensors.map((sensor, index) => {
+          {userData?.sensorList.map((sensor, index) => {
             const colors = [
               "#e64c6a",
               "#8884d8",
