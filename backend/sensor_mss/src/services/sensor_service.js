@@ -10,10 +10,15 @@ export const getSensorById = async (sensorId) => {
 export const createSensor = async (data, userId) => {
   const newSensor = new Sensor(data);
   await newSensor.save();
-  await axios.post(
-    `http://localhost:3003/view/create_sensor/${userId}`,
-    newSensor
-  );
+  await axios.post("http://localhost:3004/event", {
+    type: "SensorCreateView",
+    data: {
+      sensor_data: newSensor,
+    },
+    params: {
+      userId: userId,
+    },
+  });
   return newSensor.toObject();
 };
 
@@ -36,10 +41,15 @@ export const updateSensor = async (sensorId, data, userId) => {
   if (!updatedSensor) {
     throw new Error("Sensor não encontrado");
   }
-  await axios.put(
-    `http://localhost:3003/view/update_sensor/${userId}`,
-    updatedSensor
-  );
+  await axios.post("http://localhost:3004/event", {
+    type: "SensorUpdateView",
+    data: {
+      sensor_data: updatedSensor,
+    },
+    params: {
+      userId: userId,
+    },
+  });
   return updatedSensor;
 };
 
@@ -48,9 +58,13 @@ export const deleteSensor = async (sensorId, userId) => {
   if (!deletedSensor) {
     throw new Error("Sensor não encontrado");
   }
-  await axios.delete(
-    `http://localhost:3003/view/delete_sensor/${userId}/${sensorId}`
-  );
+  await axios.post("http://localhost:3004/event", {
+    type: "SensorDeleteView",
+    params: {
+      userId: userId,
+      sensorId: sensorId,
+    },
+  });
 
   return deletedSensor;
 };
