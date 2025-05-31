@@ -32,7 +32,7 @@ export default function LoginPage() {
     register({
       email: email,
       password: password,
-      name: name,
+      name: `${name} ${surname}`,
       address: "",
     })
       .then(() => {
