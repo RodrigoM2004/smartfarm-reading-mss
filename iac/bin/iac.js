@@ -10,7 +10,7 @@ const env = {
   region: process.env.AWS_REGION
 };
 
-const stackName = 'SmartfarmStack';
+const stackName = 'SmartfarmStackFrontmain';
 
 new IacStack(app, stackName, {
   env: env

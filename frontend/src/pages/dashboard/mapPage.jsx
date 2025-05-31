@@ -76,7 +76,7 @@ export default function MapPage() {
     setLongitude("");
     setIsPopupOpen(false);
 
-    fetchUserData();
+    window.location.reload();
   }
 
   function handleDeleteSensor() {
@@ -85,6 +85,7 @@ export default function MapPage() {
       setConfirmOpen(false);
       setSensorToDelete(null);
     });
+    window.location.reload();
   }
 
   return (
@@ -181,7 +182,7 @@ export default function MapPage() {
                   <div
                     className="w-1/5 flex flex-row items-center justify-end gap-1 text-blue-950 cursor-pointer"
                     onClick={() => {
-                      setSensorToDelete(sensor._id);
+                      setSensorToDelete(sensor.sensorId);
                       setConfirmOpen(true);
                     }}
                     title="Remover sensor"
