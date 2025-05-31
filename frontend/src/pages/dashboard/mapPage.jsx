@@ -76,7 +76,7 @@ export default function MapPage() {
     setLongitude("");
     setIsPopupOpen(false);
 
-    fetchUserData();
+    window.location.reload();
   }
 
   function handleDeleteSensor() {
@@ -85,6 +85,7 @@ export default function MapPage() {
       setConfirmOpen(false);
       setSensorToDelete(null);
     });
+    window.location.reload();
   }
 
   return (
