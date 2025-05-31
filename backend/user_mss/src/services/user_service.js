@@ -1,7 +1,7 @@
-import User from '../models/user_model.js';
-import bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
+import User from "../models/user_model.js";
+import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 export const getAllUsers = async () => await User.find();
 
@@ -13,7 +13,7 @@ export const createUser = async (data) => {
   try {
     const existingUser = await User.findOne({ email: data.email });
     if (existingUser) {
-      throw new Error('Email já registrado');
+      throw new Error("Email já registrado");
     }
 
     const hashedPassword = bcrypt.hashSync(data.password, 10);
@@ -23,12 +23,17 @@ export const createUser = async (data) => {
       password: hashedPassword,
       userId: uuidv4(),
       dateOfJoining: Date.now(),
-      role: 'user-basic'
+      role: "user-basic",
     };
 
     const newUser = new User(userData);
     await newUser.save();
-    await axios.post("http://localhost:3003/view/create_user", userData)
+    await axios.post("http://localhost:3004/event", {
+      type: "UserCreateView",
+      data: {
+        user_data: userData,
+      },
+    });
 
     const userObj = newUser.toObject();
     delete userObj.password;
@@ -44,9 +49,17 @@ export const updateUserByUserId = async (userId, data) => {
       data.password = bcrypt.hashSync(data.password, 10);
     }
 
-    const updatedUser = await User.findOneAndUpdate({ userId }, data, { new: true });
+    const updatedUser = await User.findOneAndUpdate({ userId }, data, {
+      new: true,
+    });
 
-     await axios.put(`http://localhost:3003/view/update_user/${userId}`, updatedUser)
+    await axios.post("http://localhost:3004/event", {
+      type: "UserUpdateView",
+      data: {
+        user_data: updatedUser,
+      },
+      params: { userId: userId },
+    });
 
     return updatedUser;
   } catch (err) {
@@ -74,22 +87,23 @@ export const removeSensor = async (userId, sensorId) => {
       { $pull: { sensorList: sensorId } },
       { new: true }
     );
-  }
-  catch (err) {
-    throw new Error(err.message);
-  }
-}
-
-export const deleteUserByUserId = async (userId) => {
-  try {
-    const deleted = await User.findOneAndDelete({ userId });
-    await axios.delete(`http://localhost:3003/view/delete_user/${userId}`);
-    return deleted;
   } catch (err) {
     throw new Error(err.message);
   }
 };
 
+export const deleteUserByUserId = async (userId) => {
+  try {
+    const deleted = await User.findOneAndDelete({ userId });
+    await axios.post("http://localhost:3004/event", {
+      type: "UserDeleteView",
+      params: { userId: userId },
+    });
+    return deleted;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
 
 export const login = async (email, password) => {
   const user = await User.findOne({ email });

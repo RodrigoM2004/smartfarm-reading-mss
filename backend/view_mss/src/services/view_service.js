@@ -202,7 +202,6 @@ export const deleteSensor = async (userId, sensorId) => {
 export const createReading = async (userId, sensorId, readingData) => {
   try {
     const user = await View.findOne({ userId }).select("sensorList");
-    console.log(sensorId);
     const sensor = user.sensorList.find((s) => s.sensorId === sensorId);
     const newReading = {
       battery: readingData.battery,
@@ -214,7 +213,6 @@ export const createReading = async (userId, sensorId, readingData) => {
       readingId: readingData.readingId,
     };
 
-    console.log(sensor);
     sensor.readingList.push(newReading);
     await user.save();
     return newReading;
