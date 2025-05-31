@@ -17,13 +17,10 @@ import {
 import { useUser } from "../../../../utils/contexts/UserContext";
 import { processChartData } from "../../../../utils/dashHelper";
 
-
 export default function CustomLineChart({ info }) {
   const { userData } = useUser();
 
   const chartData = processChartData(userData.sensorList, userData.readings, info);
-
-
 
   return (
     <div className="h-full w-full bg-white rounded-md">
@@ -71,6 +68,7 @@ export default function CustomLineChart({ info }) {
                 strokeWidth={2}
                 activeDot={{ r: 6 }}
                 dot={{ r: 3 }}
+                connectNulls={true}        // <- LINHA ADICIONADA AQUI
                 isAnimationActive={false}
               />
             );
@@ -152,7 +150,7 @@ const CustomTooltip = ({ active, payload, label, info }) => {
               </span>
             </div>
             <span className="text-md font-semibold ml-1 text-white">
-              {entry.value}{" "}
+              {entry.value}
               {info === "temp"
                 ? "°C"
                 : info === "batery" || info === "lum"
