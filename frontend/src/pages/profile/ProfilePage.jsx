@@ -21,6 +21,7 @@ export default function ProfilePage() {
     userData,
     deleteUser,
     loading,
+    logout
   } = useUser();
 
   const [name, setName] = useState("");
