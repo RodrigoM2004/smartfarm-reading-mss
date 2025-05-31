@@ -25,11 +25,26 @@ export function SensorProvider({ children }) {
     }
   };
 
+  const deleteSensor = async (sensorId) => {
+    try {
+      setLoading(true);
+      await sensorAPI.delete(`/${sensorId}`);
+      setSensorList((prev) => prev.filter((sensor) => sensor.id !== sensorId));
+      setError(null);
+    } catch (error) {
+      console.error(error);
+      setError("Failed to delete sensor");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value = {
     sensorList,
     loading,
     error,
     createSensor,
+    deleteSensor,
   };
 
   return (

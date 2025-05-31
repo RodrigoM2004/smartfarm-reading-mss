@@ -8,7 +8,6 @@ import TemperaturePage from "./pages/dashboard/tempPage";
 import { SidebarProvider } from "./utils/contexts/SidebarContext";
 import LumPage from "./pages/dashboard/lumPage";
 import PhPage from "./pages/dashboard/phPage";
-import BateryPage from "./pages/dashboard/batPage";
 import { UserProvider } from "./utils/contexts/UserContext";
 import { SensorProvider } from "./utils/contexts/SensorContext";
 
@@ -33,7 +32,6 @@ function App() {
                 <Route path="temp" element={<TemperaturePage />} />
                 <Route path="lum" element={<LumPage />} />
                 <Route path="ph" element={<PhPage />} />
-                <Route path="bat" element={<BateryPage />} />
               </Route>
               <Route path="/profile" element={<ProfilePage />} />
             </Routes>

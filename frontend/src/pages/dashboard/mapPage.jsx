@@ -9,20 +9,24 @@ import {
   FaSun,
   FaBatteryFull,
   FaFlask,
+  FaX,
 } from "react-icons/fa6";
 import StyledInput from "../auth/components/styledInput.jsx";
 import LoadingScreen from "../../components/LoadingScreen.jsx";
 import { timestampToDate } from "../../utils/formatters/date-formatters.js";
+import ConfirmationBox from "../../components/ConfirmationBox.jsx";
 
 export default function MapPage() {
   const { setSelectedIndex } = useSidebar();
   const { userData, fetchUserData, loading } = useUser();
-  const { createSensor } = useSensor();
+  const { createSensor, deleteSensor } = useSensor();
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [sensorName, setSensorName] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [sensorToDelete, setSensorToDelete] = useState(null);
 
   useEffect(() => {
     setSelectedIndex(0);
@@ -72,7 +76,15 @@ export default function MapPage() {
     setLongitude("");
     setIsPopupOpen(false);
 
-    window.location.reload();
+    fetchUserData();
+  }
+
+  function handleDeleteSensor() {
+    deleteSensor(sensorToDelete).then(() => {
+      fetchUserData();
+      setConfirmOpen(false);
+      setSensorToDelete(null);
+    });
   }
 
   return (
@@ -166,11 +178,15 @@ export default function MapPage() {
                       : "-"}
                     <FaTemperatureHalf size={18} className="text-blue-950" />
                   </div>
-                  <div className="w-1/5 flex flex-row items-center justify-end gap-1">
-                    {latestReading?.batery != null
-                      ? latestReading.batery + " %"
-                      : "-"}
-                    <FaBatteryFull size={18} className="text-blue-950" />
+                  <div
+                    className="w-1/5 flex flex-row items-center justify-end gap-1 text-blue-950 cursor-pointer"
+                    onClick={() => {
+                      setSensorToDelete(sensor._id);
+                      setConfirmOpen(true);
+                    }}
+                    title="Remover sensor"
+                  >
+                    <FaX size={16} />
                   </div>
                 </div>
               );
@@ -219,6 +235,16 @@ export default function MapPage() {
             </div>
           </div>
         </div>
+      )}
+      {confirmOpen && (
+        <ConfirmationBox
+          message="Tem certeza que deseja excluir este sensor?"
+          onConfirm={handleDeleteSensor}
+          onCancel={() => {
+            setConfirmOpen(false);
+            setSensorToDelete(null);
+          }}
+        />
       )}
     </div>
   );

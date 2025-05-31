@@ -14,7 +14,6 @@ export default function DashSidebar() {
     { title: "LUMINOSIDADE", icon: <FaSun size={24}/>, path: "lum" },
     { title: "pH", icon: <FaFlask size={24}/>, path: "ph" },
     { title: "TEMPERATURA", icon: <FaThermometerHalf size={24}/>, path: "temp" },
-    { title: "BATERIA", icon: <FaBatteryFull size={24}/>, path: "bat" }
   ];
 
   const handleNavigation = (index, path) => {
