@@ -17,20 +17,17 @@ const getBaseMaxByInfo = (info) => {
 };
 
 const renderNeedle = (value, max) => {
-  const cx = 100;
-  const cy = 120;
-  const outerRadius = 80;
   const angle = 210 - (value / max) * 240;
+  const length = 60;
+  const cx = 100;
+  const cy = 100;
 
-  const length = outerRadius * 0.8;
   const angleRad = RADIAN * angle;
-
   const x = cx + length * Math.cos(angleRad);
   const y = cy - length * Math.sin(angleRad);
 
   const baseLeftX = cx + 5 * Math.cos(angleRad + Math.PI / 2);
   const baseLeftY = cy - 5 * Math.sin(angleRad + Math.PI / 2);
-
   const baseRightX = cx + 5 * Math.cos(angleRad - Math.PI / 2);
   const baseRightY = cy - 5 * Math.sin(angleRad - Math.PI / 2);
 
@@ -46,13 +43,13 @@ const renderNeedle = (value, max) => {
 
 const renderTicks = (max) => {
   const cx = 100;
-  const cy = 120;
-  const radius = 95;
+  const cy = 100;
+  const radius = 70;
 
   const ticks = Array.from({ length: 5 }, (_, i) => Math.round((i * max) / 4));
 
   return ticks.map((value, i) => {
-    const angle = 210 - (i * 60); // divide 240 graus em 4 partes
+    const angle = 210 - (i * 60);
     const x = cx + radius * Math.cos(RADIAN * angle);
     const y = cy - radius * Math.sin(RADIAN * angle);
 
@@ -84,17 +81,16 @@ export default function PieWithNeedle({ average, info }) {
   ];
 
   return (
-    <div className="flex items-center justify-center w-full h-full">
-      <ResponsiveContainer width="100%" height={220}>
+    <div className="flex items-center justify-center w-full h-[180px]">
+      <ResponsiveContainer width="100%" height="100%">
         <PieChart>
-          {/* Preenchimento azul e fundo claro */}
           <Pie
             data={data}
             dataKey="value"
             startAngle={210}
             endAngle={-30}
             cx={100}
-            cy={120}
+            cy={100}
             innerRadius={50}
             outerRadius={80}
             stroke="none"
@@ -105,10 +101,7 @@ export default function PieWithNeedle({ average, info }) {
             ))}
           </Pie>
 
-          {/* Agulha */}
           {renderNeedle(average, dynamicMax)}
-
-          {/* Escala visual */}
           {renderTicks(dynamicMax)}
         </PieChart>
       </ResponsiveContainer>
