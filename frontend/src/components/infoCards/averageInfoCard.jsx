@@ -8,7 +8,7 @@ export default function AverageInfoCard({ info }) {
   const average = getAllReadingsAverage(userData.sensorList, info);
 
   return (
-    <div className="relative w-full h-[210px] flex flex-col items-center justify-center text-black rounded-md">
+    <div className="relative w-full h-[210px] flex flex-col items-center justify-center text-black rounded-md shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
       <div className='w-full flex items-center justify-center text-xl font-bold'>
         Média de {info === "lum"
           ? "Luminosidade"

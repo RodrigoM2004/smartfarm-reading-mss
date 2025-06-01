@@ -28,7 +28,7 @@ export default function PhPage() {
   return (
     <div className="w-full h-full flex p-8 text-black flex-col">
       <div className='w-full h-60'>
-        <div className='w-full h-15 bg-white rounded-md mb-4 p-2'>
+        <div className='w-full h-15 bg-white rounded-md mb-4 p-2 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden'>
           <div className='w-1/5 h-full bg-blue-950 rounded-md flex items-center justify-center'>
             <div className='text-white font-bold text-center w-full h-full items-center p-2'>
               Nível de pH

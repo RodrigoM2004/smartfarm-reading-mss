@@ -73,7 +73,7 @@ export default function CustomList({ info }) {
         </div>
 
 
-        <div className='w-full h-8/9 rounded-b-md flex overflow-y-scroll flex-col items-center gap-1 px-2 '>
+        <div className='w-full h-8/9 rounded-b-md flex overflow-y-scroll flex-col items-center gap-1 px-2 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden'>
             {sortedData.map((item, index) => {
               const localDate = new Date(item.date);
               localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
@@ -83,7 +83,7 @@ export default function CustomList({ info }) {
               const isPositive = diff >= 0;
 
                 return (
-                  <div key={index} className='w-full flex items-center justify-between p-1 flex-row border-b border-gray-300'>
+                  <div key={index} className='w-full flex items-center justify-between p-1 flex-row border-b border-gray-300 hover:bg-gray-300 transition-colors duration-500'>
                     <div className='flex items-center'>
                         <div className='border-2 border-blue-950 h-8 w-35 rounded-sm flex items-center justify-center mr-2 text-lg font-bold'>
                           {localDate.toLocaleDateString('pt-BR', {

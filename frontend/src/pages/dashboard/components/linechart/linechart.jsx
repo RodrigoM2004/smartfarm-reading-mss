@@ -23,7 +23,7 @@ export default function CustomLineChart({ info }) {
   const chartData = processChartData(userData.sensorList, userData.readings, info);
 
   return (
-    <div className="h-full w-full bg-white rounded-md">
+    <div className="h-full w-full bg-white rounded-md shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
       <ResponsiveContainer
         width="99%"
         height="100%"
