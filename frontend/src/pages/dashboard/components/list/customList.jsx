@@ -18,7 +18,7 @@ export default function CustomList({ info }) {
             Sensor
           </div>
           <div className="w-[0.5px] h-full bg-gray-400 rounded-full mr-1"></div>
-          <div className="font-bold  w-1/3 text-center">
+          <div className="font-bold  w-1/4 text-center">
             Leitura de {(info === "lum" ?  "Luminosidade": info === "temp" ? "Tempratura" : info === "batery" ? "Bateria" : info === "ph" ? "pH" : "")}
           </div>
           <div className="w-[0.5px] h-full bg-gray-400 rounded-full mr-1"></div>
@@ -34,24 +34,26 @@ export default function CustomList({ info }) {
                 const localDate = new Date(item.date);
                 localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
                 return (
-                  <div key={index} className='w-full flex items-center justify-between p-1 flex-row'>
+                  <div key={index} className='w-full flex items-center justify-between p-1 flex-row border-b border-gray-300'>
                     <div className='flex items-center'>
-                        <div className='border-2 border-blue-950 h-8 w-30 rounded-sm flex items-center justify-center mr-2 text-lg font-bold'>
+                        <div className='border-2 border-blue-950 h-8 w-35 rounded-sm flex items-center justify-center mr-2 text-lg font-bold'>
                           {localDate.toLocaleDateString('pt-BR', {
                             day: '2-digit',
                             month: '2-digit',
                             year: 'numeric',
                           })}
                         </div>
-                          <div className='mr-2 w-[40%] text-center ml-6'>
+                          <div className='mr-2 w-[70%] text-center ml-6'>
                             Sensor #{item.sensorId}
                           </div>
                     </div>
-                    <div className=" w-[40%] h-8 flex items-center justify-center font-bold text-md ">
-                      {item.value} {info === "lum" || info === "batery" ? "%" : info === "temp" ? "°C" : ""}
+                    <div className='w-[40%] h-8 flex items-center justify-center'>
+                      <div className='flex items-center justify-center w-full h-full font-bold text-md text-center'>
+                        {item.value} {info === "lum" || info === "batery" ? "%" : info === "temp" ? "°C" : ""}
+                      </div>
                     </div>
                     <div
-                      className={`p-2 rounded-md w-18 h-8 flex items-center gap-1 justify-center
+                      className={`p-2 rounded-md w-30 h-8 flex items-center gap-1 justify-center
                         ${
                           getDiferenceReadingVsAverage(userData.sensorList, info, item.value) >= 0
                             ? "bg-orange-200 text-orange-800"
