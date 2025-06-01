@@ -30,7 +30,8 @@ export default function TemperaturePage() {
       <div className='w-full h-60'>
         <div className='w-full h-15 bg-white rounded-md mb-4 p-2'>
           <div className='w-1/5 h-full bg-blue-950 rounded-md flex items-center justify-center'>
-            <div className='text-white text-sm w-full h-full flex items-center p-2'>
+            <div className='text-white font-bold text-center w-full h-full items-center p-2'>
+              Temperatura
               {dashboardFilterFinalData}
             </div>
           </div>
